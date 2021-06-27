@@ -1,2 +1,2 @@
 # thepickingsolution
-pick-to-light system for final project to become an engineer
+Pick-to-light system for final project to become a computer engineer at PUCPR
