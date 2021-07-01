@@ -2,7 +2,7 @@
 using Business.Domain.Validations;
 using System;
 using System.Collections.Generic;
-
+//oi
 namespace Business.Domain.Picking
 {
     public class OrderPicking
