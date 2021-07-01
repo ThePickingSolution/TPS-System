@@ -70,8 +70,7 @@ namespace Business.Domain.Picking
             this.Id = id;
             _validator = validator;
         }
-    
-    
+       
 
     }
 }
