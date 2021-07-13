@@ -11,3 +11,6 @@
 /Development/TPS/.vs/TPS/DesignTimeBuild
 /Development/TPS/Business.Domain/bin/Debug/net5.0
 /Development/TPS/Infrastructure.String/bin/Debug/net5.0
+/Development/Hardware/PickingFace/Debug
+/Development/Hardware/PickingFace/.vs/PickingFace/v16
+/Development/Hardware/packages/FreeRTOS
