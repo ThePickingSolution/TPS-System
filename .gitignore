@@ -14,3 +14,11 @@
 /Development/Hardware/PickingFace/Debug
 /Development/Hardware/PickingFace/.vs/PickingFace/v16
 /Development/Hardware/packages/FreeRTOS
+/Development/TPS/Application.Picking/obj
+/Development/TPS/Application.Picking.Interface/obj
+/Development/TPS/Application.User/obj
+/Development/TPS/Application.User.Interface/obj
+/Development/TPS/Application.Warehouse/obj
+/Development/TPS/Application.Warehouse.Interface/obj
+/Development/TPS/Repository.Picking/obj
+/Development/TPS/Repository.Picking.Interface/obj

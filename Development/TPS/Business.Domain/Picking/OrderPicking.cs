@@ -1,8 +1,10 @@
-﻿using Business.Domain.Exceptions;
+﻿using Business.Domain.Events;
+using Business.Domain.Exceptions;
+using Business.Domain.People;
 using Business.Domain.Validations;
 using System;
 using System.Collections.Generic;
-//oi
+
 namespace Business.Domain.Picking
 {
     public class OrderPicking
@@ -11,6 +13,7 @@ namespace Business.Domain.Picking
         public string _container;
         private PickingStatus _status = PickingStatus.PENDING;
         private IOrderPickingValidator _validator = new DefaultOrderPickingValidator();
+        private IOrderPickingEvent _event = new DefaultOrderPickingEvent();
 
         public string Id
         {
@@ -31,15 +34,20 @@ namespace Business.Domain.Picking
             {
                 _validator.ValidateContainer(value,this);
                 _container = value;
+                _event.OnContainerChange(this);
             }
         }
-        public string User { get; set; }
+        public string Area { get; protected set; }
+        public Operator Operator { get; protected set; }
         public PickingStatus Status
         {
             get => _status;
             set
             {
                 _validator.ValidateStatusChange(_status, value, this);
+                PickingStatus previousAux = _status;
+                _status = value;
+                _event.OnStatusChange(this, previousAux);
             }
         }
         public IDictionary<string, string> Details { get; } = new Dictionary<string, string>();
@@ -52,7 +60,15 @@ namespace Business.Domain.Picking
                 _validator = value;
             } 
         }
-
+        public IOrderPickingEvent Event
+        {
+            set
+            {
+                if (value == null)
+                    throw new NullValidatorException("Null Order Picking Events");
+                _event = value;
+            }
+        }
 
         public OrderPicking(string id) {
             this.Id = id;
@@ -61,14 +77,33 @@ namespace Business.Domain.Picking
             this.Id = id;
             this._validator = validator;
         }
+        public OrderPicking(string id, IOrderPickingValidator validator, IOrderPickingEvent events)
+        {
+            this.Id = id;
+            this._validator = validator;
+            this._event = events;
+        }
+        public OrderPicking(string id, string container, string area, PickingStatus status, Operator _operator)
+        {
+            this.Id = id;
+            this._container = container;
+            this._status = status;
+            this.Area = area;
+            this.Operator = _operator;
+        }
 
 
+        //TODO Implement ordering
         public void PutItemsInOrder()
         {
             throw new NotImplementedException();
         }
-
-        //TODO User domain
-        
+        public void SetPickingOrderToUser(Operator _operator, string area)
+        {
+            this.Operator = _operator;
+            this.Area = area;
+            this.Status = PickingStatus.WIP;
+        }
+    
     }
 }
