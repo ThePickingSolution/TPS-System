@@ -22,3 +22,15 @@
 /Development/TPS/Application.Warehouse.Interface/obj
 /Development/TPS/Repository.Picking/obj
 /Development/TPS/Repository.Picking.Interface/obj
+/Development/TPS/API.Picking/bin/Debug/net5.0
+/Development/TPS/API.Picking/obj
+/Development/TPS/Application.Picking/bin/Debug/net5.0
+/Development/TPS/Application.Picking.Interface/bin/Debug/net5.0
+/Development/TPS/Application.User/bin/Debug/net5.0
+/Development/TPS/Application.User.Interface/bin/Debug/net5.0
+/Development/TPS/Application.Warehouse/bin/Debug/net5.0
+/Development/TPS/Application.Warehouse.Interface/bin/Debug/net5.0
+/Development/TPS/Database.Picking/bin/Debug/net5.0
+/Development/TPS/Database.Picking/obj
+/Development/TPS/Repository.Picking/bin/Debug/net5.0
+/Development/TPS/Repository.Picking.Interface/bin/Debug/net5.0

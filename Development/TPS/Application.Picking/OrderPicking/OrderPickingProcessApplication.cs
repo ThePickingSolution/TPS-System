@@ -1,5 +1,5 @@
 ﻿using Application.Picking.Interface.DTOs;
-using Application.Picking.Interface.OrderPicking;
+using Application.Picking.Interface.OrderPickings;
 using System;
 
 namespace Application.Picking.OrderPicking
