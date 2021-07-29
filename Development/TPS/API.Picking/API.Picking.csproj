@@ -14,7 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Application.Picking.Interface\Application.Picking.Interface.csproj" />
+    <ProjectReference Include="..\Application.Picking\Application.Picking.csproj" />
+    <ProjectReference Include="..\Business.Domain\Business.Domain.csproj" />
     <ProjectReference Include="..\Database.Picking\Database.Picking.csproj" />
+    <ProjectReference Include="..\Repository.Picking.Interface\Repository.Picking.Interface.csproj" />
+    <ProjectReference Include="..\Repository.Picking\Repository.Picking.csproj" />
   </ItemGroup>
 
 </Project>

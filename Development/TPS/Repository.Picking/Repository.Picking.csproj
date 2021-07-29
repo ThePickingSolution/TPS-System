@@ -4,4 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Database.Picking\Database.Picking.csproj" />
+    <ProjectReference Include="..\Repository.Picking.Interface\Repository.Picking.Interface.csproj" />
+  </ItemGroup>
+
 </Project>

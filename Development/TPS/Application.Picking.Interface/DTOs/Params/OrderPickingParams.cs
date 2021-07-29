@@ -5,6 +5,8 @@ namespace Application.Picking.Interface.DTOs.Params
 {
     public class OrderPickingParams
     {
+        public bool FilterById{ get; private set; }
+        public string Id { get; private set; }
 
         public bool FilterByContainer { get; private set; }
         public string Container { get; private set; }
@@ -21,7 +23,11 @@ namespace Application.Picking.Interface.DTOs.Params
         public bool FilterByArea { get; private set; }
         public string Area { get; private set; }
 
-
+        public void SetIdFilter(string id)
+        {
+            this.Id = id;
+            this.FilterById = true;
+        }
         public void SetContainerFilter(string container)
         {
             this.Container = container;

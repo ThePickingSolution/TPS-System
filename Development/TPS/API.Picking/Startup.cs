@@ -1,3 +1,5 @@
+using Application.Picking.Interface.OrderPickings;
+using Application.Picking.OrderPicking;
 using Database.Picking;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Repository.Picking.Interface.OrderPickings;
+using Repository.Picking.OrderPickings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,11 +38,16 @@ namespace API.Picking
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API.Picking", Version = "v1" });
             });
 
-
+            //DbContext
             var connection = Configuration["ConnectionStrings:Picking"];
             services.AddDbContext<PickingDbContext>(options =>
                 options.UseMySql(connection, ServerVersion.AutoDetect(connection))
             );
+
+            //Order Picking
+            services.AddScoped<IOrderPickingQuery,OrderPickingQuery>();
+            services.AddScoped<IOrderPickingApplication, OrderPickingApplication>();
+            
 
         }
 

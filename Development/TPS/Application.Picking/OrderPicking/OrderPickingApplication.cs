@@ -12,7 +12,9 @@ namespace Application.Picking.OrderPicking
 
         private readonly IOrderPickingQuery baseQuery;
 
-        public OrderPickingApplication() { }
+        public OrderPickingApplication(IOrderPickingQuery _baseQuery) {
+            baseQuery = _baseQuery;
+        }
 
 
         public IEnumerable<OrderPickingDto> Get(OrderPickingParams parameters) {

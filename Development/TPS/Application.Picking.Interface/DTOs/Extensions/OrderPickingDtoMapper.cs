@@ -17,9 +17,10 @@ namespace Application.Picking.Interface.DTOs.Extensions
                 Area = model.Area,
                 Container = model.Container,
                 Description = model.Description,
-                Operator = model.Operator.Username,
+                Operator = model.Operator == null ? string.Empty : model.Operator.Username,
                 ScanContainer = model.WithContainer,
-                Status = model.Status
+                Status = model.Status,
+                Details = model.Details.Select(s => new OrderPickingDetailDto(s.Key,s.Value)).ToList()
             };
         }
     
