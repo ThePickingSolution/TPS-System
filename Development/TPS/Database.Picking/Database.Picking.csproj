@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\Business.Domain\Business.Domain.csproj" />
   </ItemGroup>
 
 </Project>

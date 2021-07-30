@@ -37,7 +37,7 @@ namespace Business.Domain.Picking
                 _event.OnContainerChange(this);
             }
         }
-        public string Area { get; protected set; }
+        public string Sector { get; protected set; }
         public Operator Operator { get; protected set; }
         public PickingStatus Status
         {
@@ -83,12 +83,12 @@ namespace Business.Domain.Picking
             this._validator = validator;
             this._event = events;
         }
-        public OrderPicking(string id, string container, string area, PickingStatus status, Operator _operator)
+        public OrderPicking(string id, string container, string sector, PickingStatus status, Operator _operator)
         {
             this.Id = id;
             this._container = container;
             this._status = status;
-            this.Area = area;
+            this.Sector = sector;
             this.Operator = _operator;
         }
 
@@ -98,10 +98,10 @@ namespace Business.Domain.Picking
         {
             throw new NotImplementedException();
         }
-        public void SetPickingOrderToUser(Operator _operator, string area)
+        public void SetPickingOrderToUser(Operator _operator, string sector)
         {
             this.Operator = _operator;
-            this.Area = area;
+            this.Sector = sector;
             this.Status = PickingStatus.WIP;
         }
     

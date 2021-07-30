@@ -23,8 +23,10 @@ namespace Application.Picking.OrderPicking
 
             var op_query = baseQuery.New();
 
-            if (parameters.FilterByArea)
-                op_query.FilterByArea(parameters.Area);
+            if (parameters.FilterById)
+                op_query.FilterById(parameters.Id);
+            if (parameters.FilterBySector)
+                op_query.FilterBySector(parameters.Sector);
             if (parameters.FilterByContainer)
                 op_query.FilterByContainer(parameters.Container);
             if (parameters.FilterByOperator)

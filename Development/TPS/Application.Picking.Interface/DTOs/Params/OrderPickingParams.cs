@@ -20,8 +20,8 @@ namespace Application.Picking.Interface.DTOs.Params
         public string Operator { get; private set; }
 
 
-        public bool FilterByArea { get; private set; }
-        public string Area { get; private set; }
+        public bool FilterBySector { get; private set; }
+        public string Sector { get; private set; }
 
         public void SetIdFilter(string id)
         {
@@ -47,10 +47,10 @@ namespace Application.Picking.Interface.DTOs.Params
             this.FilterByOperator = true;
         }
 
-        public void SetAreaFilter(string area)
+        public void SetSectorFilter(string sector)
         {
-            Area = area;
-            FilterByArea = true;
+            Sector = sector;
+            FilterBySector = true;
         }
     }
 }

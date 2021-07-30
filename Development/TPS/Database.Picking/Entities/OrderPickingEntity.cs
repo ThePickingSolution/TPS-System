@@ -13,5 +13,6 @@ namespace Database.Picking.Entities
         public DateTime CreationDate { get; set; }
         public ICollection<OrderPickingDetailEntity> Details { get; set; }
         public ICollection<PickingItemEntity> Items { get; set; }
+        public ICollection<OrderPickingProcessEntity> Processes { get; set; }
     }
 }

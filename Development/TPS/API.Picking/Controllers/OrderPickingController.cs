@@ -20,11 +20,11 @@ namespace API.Picking.Controllers
 
 
         [HttpGet]
-        public IEnumerable<OrderPickingDto> Get(string id=null,string area = null, string op = null, string container = null, PickingStatus? status = null)
+        public IEnumerable<OrderPickingDto> Get(string id=null,string sector = null, string op = null, string container = null, PickingStatus? status = null)
         {
             var _params = new OrderPickingParams();
             if (id != null) _params.SetIdFilter(id);
-            if (area != null) _params.SetAreaFilter(area);
+            if (sector != null) _params.SetSectorFilter(sector);
             if (op != null) _params.SetOperatorFilter(op);
             if (container != null) _params.SetContainerFilter(container);
             if (status != null) _params.SetStatusFilter(status.Value);

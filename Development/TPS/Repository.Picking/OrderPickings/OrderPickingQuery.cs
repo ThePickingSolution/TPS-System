@@ -3,11 +3,8 @@ using Database.Picking;
 using Database.Picking.Entities;
 using Microsoft.EntityFrameworkCore;
 using Repository.Picking.Interface.OrderPickings;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository.Picking.OrderPickings
 {
@@ -22,6 +19,7 @@ namespace Repository.Picking.OrderPickings
             _dbContext = dbContext;
             query = dbContext.OrderPickings
                 .Include(i => i.Items)
+                .Include(i => i.Processes)
                 .Include(i => i.Details);
         }
 
@@ -41,14 +39,18 @@ namespace Repository.Picking.OrderPickings
         }
 
 
-        public IOrderPickingQuery FilterByArea(string area)
+        public IOrderPickingQuery FilterBySector(string sector)
         {
-            throw new NotImplementedException();
+            this.query = this.query.Where(
+                    q => q.Processes.OrderByDescending(o => o.Date).First().Sector == sector);
+            return this;
         }
 
         public IOrderPickingQuery FilterByContainer(string container)
         {
-            throw new NotImplementedException();
+            this.query = this.query.Where(
+                q => q.Processes.OrderByDescending(o => o.Date).First().Container == container);
+            return this;
         }
 
         public IOrderPickingQuery FilterById(string id)
@@ -59,12 +61,16 @@ namespace Repository.Picking.OrderPickings
 
         public IOrderPickingQuery FilterByStatus(PickingStatus status)
         {
-            throw new NotImplementedException();
+            this.query = this.query.Where(
+                    q => q.Processes.OrderByDescending(o => o.Date).First().Status_Id == (int)status);
+            return this;
         }
 
         public IOrderPickingQuery FilterByUser(string username)
         {
-            throw new NotImplementedException();
+            this.query = this.query.Where(
+                   q => q.Processes.OrderByDescending(o => o.Date).First().Operator == username);
+            return this;
         }
 
         

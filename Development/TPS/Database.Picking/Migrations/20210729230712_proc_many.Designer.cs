@@ -3,14 +3,16 @@ using System;
 using Database.Picking;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Database.Picking.Migrations
 {
     [DbContext(typeof(PickingDbContext))]
-    partial class PickingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210729230712_proc_many")]
+    partial class proc_many
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,6 +62,9 @@ namespace Database.Picking.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Area")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Container")
                         .HasColumnType("longtext");
 
@@ -74,9 +79,6 @@ namespace Database.Picking.Migrations
                     b.Property<string>("OrderPicking_Id")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Sector")
-                        .HasColumnType("longtext");
 
                     b.Property<int>("Status_Id")
                         .HasColumnType("int");

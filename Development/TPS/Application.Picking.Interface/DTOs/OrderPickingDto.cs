@@ -13,7 +13,7 @@ namespace Application.Picking.Interface.DTOs
         public string Description { get; set; }
         public bool ScanContainer { get; set; }
         public string Container { get; set; }
-        public string Area { get; set; }
+        public string Sector { get; set; }
         public string Operator { get; set; }
         public PickingStatus Status { get; set; }
         public List<OrderPickingDetailDto> Details { get; set; }

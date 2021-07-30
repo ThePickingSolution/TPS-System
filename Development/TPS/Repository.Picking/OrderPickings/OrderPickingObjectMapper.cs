@@ -14,7 +14,9 @@ namespace Repository.Picking.OrderPickings
             if (entity == null)
                 return null;
 
-            var model = new OrderPicking(entity.Id, string.Empty, string.Empty, PickingStatus.PENDING, null)
+            var lastStatus = entity.Processes.OrderBy(o => o.Date).LastOrDefault();
+
+            var model = new OrderPicking(entity.Id, lastStatus.Container, lastStatus.Sector, (PickingStatus)lastStatus.Status_Id, null)
             {
                 Description = entity.Description,
                 WithContainer = false

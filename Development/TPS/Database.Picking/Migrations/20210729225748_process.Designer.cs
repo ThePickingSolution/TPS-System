@@ -3,14 +3,16 @@ using System;
 using Database.Picking;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Database.Picking.Migrations
 {
     [DbContext(typeof(PickingDbContext))]
-    partial class PickingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210729225748_process")]
+    partial class process
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,6 +62,9 @@ namespace Database.Picking.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Area")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Container")
                         .HasColumnType("longtext");
 
@@ -71,17 +76,19 @@ namespace Database.Picking.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
+                    b.Property<string>("OrderPickingEntityId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("OrderPicking_Id")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Sector")
-                        .HasColumnType("longtext");
 
                     b.Property<int>("Status_Id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderPickingEntityId");
 
                     b.HasIndex("OrderPicking_Id");
 
@@ -103,28 +110,6 @@ namespace Database.Picking.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Picking.OrderPickingStatus");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1000,
-                            Status = "PENDING"
-                        },
-                        new
-                        {
-                            Id = 2000,
-                            Status = "WIP"
-                        },
-                        new
-                        {
-                            Id = 3000,
-                            Status = "READY"
-                        },
-                        new
-                        {
-                            Id = 4000,
-                            Status = "PICKED"
-                        });
                 });
 
             modelBuilder.Entity("Database.Picking.Entities.PickingItemDetailEntity", b =>
@@ -183,9 +168,14 @@ namespace Database.Picking.Migrations
 
             modelBuilder.Entity("Database.Picking.Entities.OrderPickingProcessEntity", b =>
                 {
-                    b.HasOne("Database.Picking.Entities.OrderPickingEntity", "OrderPicking")
+                    b.HasOne("Database.Picking.Entities.OrderPickingEntity", null)
                         .WithMany("Processes")
+                        .HasForeignKey("OrderPickingEntityId");
+
+                    b.HasOne("Database.Picking.Entities.OrderPickingEntity", "OrderPicking")
+                        .WithMany()
                         .HasForeignKey("OrderPicking_Id")
+                        .HasConstraintName("FK_Picking.OrderPickingProcess_Picking.OrderPicking_OrderPicki~1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

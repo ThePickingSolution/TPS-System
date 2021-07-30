@@ -16,7 +16,7 @@ namespace Repository.Picking.Interface.OrderPickings
         IOrderPickingQuery FilterByUser(string username);
         IOrderPickingQuery FilterByStatus(PickingStatus status);
         IOrderPickingQuery FilterByContainer(string container);
-        IOrderPickingQuery FilterByArea(string area);
+        IOrderPickingQuery FilterBySector(string sector);
 
         IOrderPickingQuery New();
     }

@@ -14,7 +14,7 @@ namespace Application.Picking.Interface.DTOs.Extensions
             return new OrderPickingDto()
             {
                 Id = model.Id,
-                Area = model.Area,
+                Sector = model.Sector,
                 Container = model.Container,
                 Description = model.Description,
                 Operator = model.Operator == null ? string.Empty : model.Operator.Username,
