@@ -34,3 +34,13 @@
 /Development/TPS/Database.Picking/obj
 /Development/TPS/Repository.Picking/bin/Debug/net5.0
 /Development/TPS/Repository.Picking.Interface/bin/Debug/net5.0
+/Development/TPS/API.Administration/bin/Debug/net5.0
+/Development/TPS/API.Administration/obj
+/Development/TPS/Business.Domain.Administration/bin/Debug/net5.0
+/Development/TPS/Business.Domain.Administration/obj
+/Development/TPS/Database.Administration/bin/Debug/net5.0
+/Development/TPS/Database.Administration/obj
+/Development/TPS/Repository.Administration/bin/Debug/net5.0
+/Development/TPS/Repository.Administration/obj
+/Development/TPS/Repository.Administration.Interface/bin/Debug/net5.0
+/Development/TPS/Repository.Administration.Interface/obj

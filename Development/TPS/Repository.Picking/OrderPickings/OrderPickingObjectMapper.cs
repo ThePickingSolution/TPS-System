@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Picking.OrderPickings
 {
-    public static class OrderPickingObjectMapper
+    internal static class OrderPickingObjectMapper
     {
         public static OrderPicking ToDomain(this OrderPickingEntity entity) {
             if (entity == null)
