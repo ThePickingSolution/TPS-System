@@ -111,6 +111,9 @@
     <ClCompile Include="..\packages\FreeRTOS\FreeRTOS\Source\stream_buffer.c" />
     <ClCompile Include="..\packages\FreeRTOS\FreeRTOS\Source\tasks.c" />
     <ClCompile Include="..\packages\FreeRTOS\FreeRTOS\Source\timers.c" />
+    <ClCompile Include="basic_io.c" />
+    <ClCompile Include="example.c" />
+    <ClCompile Include="hal.c" />
     <ClCompile Include="main.c">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -133,7 +136,11 @@
     <ClInclude Include="..\packages\FreeRTOS\FreeRTOS\Source\include\task.h" />
     <ClInclude Include="..\packages\FreeRTOS\FreeRTOS\Source\include\timers.h" />
     <ClInclude Include="..\packages\FreeRTOS\FreeRTOS\Source\portable\MSVC-MingW\portmacro.h" />
+    <ClInclude Include="basic_io.h" />
+    <ClInclude Include="datatypes.h" />
     <ClInclude Include="FreeRTOSConfig.h" />
+    <ClInclude Include="hal.h" />
+    <ClInclude Include="sm.h" />
     <ClInclude Include="Trace_Recorder_Configuration\trcConfig.h" />
   </ItemGroup>
   <ItemGroup>

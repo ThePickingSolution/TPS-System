@@ -38,6 +38,9 @@
     <Filter Include="Demo App Source\Blinky_Demo">
       <UniqueIdentifier>{fb86fa48-ac27-4f87-9215-ce9e1a1a85f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Demo App Source\SRC">
+      <UniqueIdentifier>{7a9d76a8-d7cb-4ec5-a51a-4b47d5e927ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -163,6 +166,15 @@
     <ClCompile Include="..\packages\FreeRTOS\FreeRTOS\Common\Minimal\TimerDemo.c">
       <Filter>Demo App Source\Full_Demo\Common Demo Tasks</Filter>
     </ClCompile>
+    <ClCompile Include="basic_io.c">
+      <Filter>Demo App Source\SRC</Filter>
+    </ClCompile>
+    <ClCompile Include="example.c">
+      <Filter>Demo App Source\SRC</Filter>
+    </ClCompile>
+    <ClCompile Include="hal.c">
+      <Filter>Demo App Source\SRC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FreeRTOSConfig.h">
@@ -209,6 +221,18 @@
     </ClInclude>
     <ClInclude Include="..\packages\FreeRTOS\FreeRTOS\Source\portable\MSVC-MingW\portmacro.h">
       <Filter>FreeRTOS Source\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_io.h">
+      <Filter>Demo App Source\SRC</Filter>
+    </ClInclude>
+    <ClInclude Include="datatypes.h">
+      <Filter>Demo App Source\SRC</Filter>
+    </ClInclude>
+    <ClInclude Include="hal.h">
+      <Filter>Demo App Source\SRC</Filter>
+    </ClInclude>
+    <ClInclude Include="sm.h">
+      <Filter>Demo App Source\SRC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

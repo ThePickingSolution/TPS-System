@@ -61,6 +61,9 @@ should an assert get hit. */
 #include "FreeRTOS.h"
 #include "task.h"
 
+extern int main_(void);
+
+
 /* This project provides two demo applications.  A simple blinky style demo
 application, and a more comprehensive test and demo application.  The
 mainCREATE_SIMPLE_BLINKY_DEMO_ONLY setting is used to select between the two.
@@ -138,33 +141,21 @@ static BaseType_t xTraceRunning = pdTRUE;
 /*-----------------------------------------------------------*/
 
 int main( void )
-{
+{	
 	/* This demo uses heap_5.c, so start by defining some heap regions.  heap_5
 	is only used for test and example reasons.  Heap_4 is more appropriate.  See
 	http://www.freertos.org/a00111.html for an explanation. */
 	prvInitialiseHeap();
 
-	/* Initialise the trace recorder.  Use of the trace recorder is optional.
-	See http://www.FreeRTOS.org/trace for more information. */
-	vTraceEnable( TRC_START );
+	/* Initialise the trace recorder and create the label used to post user
+	events to the trace recording on each tick interrupt.  Use of the trace
+	recorder is optional.  See http://www.FreeRTOS.org/trace for more
+	information. */
+	//vTraceInitTraceData();
+	// xTickTraceUserEvent = xTraceOpenLabel("tick");
 
-	/* The mainCREATE_SIMPLE_BLINKY_DEMO_ONLY setting is described at the top
-	of this file. */
-	#if ( mainCREATE_SIMPLE_BLINKY_DEMO_ONLY == 1 )
-	{
-		main_blinky();
-	}
-	#else
-	{
-		/* Start the trace recording - the recording is written to a file if
-		configASSERT() is called. */
-		printf( "\r\nTrace started.\r\nThe trace will be dumped to disk if a call to configASSERT() fails.\r\n" );
-		printf( "Uncomment the call to kbhit() in this file to also dump trace with a key press.\r\n" );
-		uiTraceStart();
+	main_();
 
-		main_full();
-	}
-	#endif
 
 	return 0;
 }
