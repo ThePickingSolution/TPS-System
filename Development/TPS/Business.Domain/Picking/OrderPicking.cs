@@ -15,6 +15,8 @@ namespace Business.Domain.Picking
         private IOrderPickingValidator _validator = new DefaultOrderPickingValidator();
         private IOrderPickingEvent _event = new DefaultOrderPickingEvent();
 
+        private const string CONTAINER_KEY = "SCAN_CONTAINER";
+
         public string Id
         {
             get => _id;
@@ -26,7 +28,11 @@ namespace Business.Domain.Picking
             }
         }
         public string Description { get; set; }
-        public bool WithContainer { get; set; }
+        public bool WithContainer {
+            get {
+                return this.Details.ContainsKey(CONTAINER_KEY);
+            }
+        }
         public string Container
         {
             get => _container;

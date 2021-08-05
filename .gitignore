@@ -44,3 +44,13 @@
 /Development/TPS/Repository.Administration/obj
 /Development/TPS/Repository.Administration.Interface/bin/Debug/net5.0
 /Development/TPS/Repository.Administration.Interface/obj
+/Development/TPS/API.Warehouse/bin/Debug/net5.0
+/Development/TPS/API.Warehouse/obj
+/Development/TPS/Business.Domain.Warehouse/bin/Debug/net5.0
+/Development/TPS/Business.Domain.Warehouse/obj
+/Development/TPS/Database.Warehouse/bin/Debug/net5.0
+/Development/TPS/Database.Warehouse/obj
+/Development/TPS/Repository.Warehouse/bin/Debug/net5.0
+/Development/TPS/Repository.Warehouse/obj
+/Development/TPS/Repository.Warehouse.Interface/bin/Debug/net5.0
+/Development/TPS/Repository.Warehouse.Interface/obj

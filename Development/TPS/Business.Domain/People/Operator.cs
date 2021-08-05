@@ -8,16 +8,16 @@ namespace Business.Domain.People
 {
     public class Operator
     {
+        public Guid Id { get; protected set; }
         public string Username { get; protected set; }
         public string Name { get; protected set; }
 
-        public Operator(string username) {
-            Username = username;
+        public Operator(Guid id) {
+            Id = id;
         }
-        public Operator(string username, string name)
-        {
+        public Operator(Guid id, string username, string name) {
+            Id = id;
             Username = username;
-            Name = name;
         }
     }
 }

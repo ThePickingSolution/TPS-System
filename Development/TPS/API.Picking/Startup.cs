@@ -10,11 +10,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Repository.Picking.Interface.Operators;
 using Repository.Picking.Interface.OrderPickings;
+using Repository.Picking.Operators;
 using Repository.Picking.OrderPickings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace API.Picking
@@ -32,7 +35,8 @@ namespace API.Picking
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API.Picking", Version = "v1" });
@@ -44,9 +48,13 @@ namespace API.Picking
                 options.UseMySql(connection, ServerVersion.AutoDetect(connection))
             );
 
+            services.AddHttpClient();
+
+
             //Order Picking
             services.AddScoped<IOrderPickingQuery,OrderPickingQuery>();
             services.AddScoped<IOrderPickingApplication, OrderPickingApplication>();
+            services.AddScoped<IOperatorRepository>(s => new OperatorRepository("localhost:9859", s.GetService<IHttpClientFactory>()));
             
 
         }

@@ -18,7 +18,7 @@ namespace API.Administration.Controllers {
         [HttpGet]
         public IActionResult Get(Guid? id = null, string username = null) {
             if (id.HasValue && !string.IsNullOrEmpty(username)) {
-                return BadRequest("Inform only one param");
+                return BadRequest(@"Inform only one param");
             }
 
             User user = null;
@@ -29,7 +29,10 @@ namespace API.Administration.Controllers {
                 user = repository.Get(username);
                 return user != null ? Ok(user) : NoContent();
             }
-            return BadRequest("Inform one param");
+            return BadRequest(
+@"Inform one param
+?id:Guid 
+?username:string");
 
         }
     
