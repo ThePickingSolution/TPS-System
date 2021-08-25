@@ -4,4 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Database.Warehouse\Database.Warehouse.csproj" />
+    <ProjectReference Include="..\Repository.Warehouse.Interface\Repository.Warehouse.Interface.csproj" />
+  </ItemGroup>
+
 </Project>

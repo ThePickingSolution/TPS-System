@@ -1,11 +1,15 @@
+using Database.Warehouse;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Repository.Warehouse.Interface.Sectors;
+using Repository.Warehouse.Sectors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +32,15 @@ namespace API.Warehouse
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API.Warehouse", Version = "v1" });
             });
+
+            //DbContext
+            var connection = Configuration["ConnectionStrings:Warehouse"];
+            services.AddDbContext<WarehouseDbContext>(options =>
+                options.UseMySql(connection, ServerVersion.AutoDetect(connection))
+            );
+
+            //Sector
+            services.AddScoped<ISectorRepository, SectorRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

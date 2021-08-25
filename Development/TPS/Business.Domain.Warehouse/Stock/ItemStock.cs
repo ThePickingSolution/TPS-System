@@ -11,7 +11,7 @@ namespace Business.Domain.Warehouse.Stock
         public string StockCode { get; set; }
         public string SKU { get; set; }
         public int Priority { get; set; }
-
+        public Sector Sector { get; set; }
         public string Details { get; set; }
     }
 }

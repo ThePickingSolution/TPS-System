@@ -11,6 +11,6 @@ namespace Business.Domain.Warehouse.Stock
         public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
-        public List<ItemStock> Stocks { get; set; }
+        //public List<ItemStock> Stocks { get; set; }
     }
 }
