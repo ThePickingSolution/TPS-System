@@ -2,6 +2,7 @@
 using Business.Domain.Exceptions;
 using Business.Domain.People;
 using Business.Domain.Validations;
+using Infrastructure.String;
 using System;
 using System.Collections.Generic;
 
@@ -106,6 +107,12 @@ namespace Business.Domain.Picking
         }
         public void SetPickingOrderToUser(Operator _operator, string sector)
         {
+            if (_operator == null)
+                throw new PickingNotFoundException("Operador não encontrado");
+
+            if (sector.IsNullOrEmpty())
+                throw new PickingNotFoundException("Setor não encontrado");
+
             this.Operator = _operator;
             this.Sector = sector;
             this.Status = PickingStatus.WIP;

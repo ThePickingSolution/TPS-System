@@ -55,7 +55,8 @@ namespace API.Picking
             services.AddScoped<IOrderPickingQuery,OrderPickingQuery>();
             services.AddScoped<IOrderPickingApplication, OrderPickingApplication>();
             services.AddScoped<IOperatorRepository>(s => new OperatorRepository("localhost:9859", s.GetService<IHttpClientFactory>()));
-            
+
+            services.AddScoped<IOrderPickingProcessApplication, OrderPickingProcessApplication>();
 
         }
 
