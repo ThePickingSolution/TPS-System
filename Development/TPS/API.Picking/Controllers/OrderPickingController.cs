@@ -23,6 +23,7 @@ namespace API.Picking.Controllers
         public IEnumerable<OrderPickingDto> Get(string id=null,string sector = null, string op = null, string container = null, PickingStatus? status = null)
         {
             var _params = new OrderPickingParams();
+            _params.Limit = 50;
             if (id != null) _params.SetIdFilter(id);
             if (sector != null) _params.SetSectorFilter(sector);
             if (op != null) _params.SetOperatorFilter(op);

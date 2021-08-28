@@ -5,6 +5,8 @@ namespace Application.Picking.Interface.DTOs.Params
 {
     public class OrderPickingParams
     {
+        public int? Limit { get; set; }
+
         public bool FilterById{ get; private set; }
         public string Id { get; private set; }
 

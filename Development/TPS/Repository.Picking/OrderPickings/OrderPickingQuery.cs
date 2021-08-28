@@ -6,8 +6,10 @@ using Infrastructure.String;
 using Microsoft.EntityFrameworkCore;
 using Repository.Picking.Interface.Operators;
 using Repository.Picking.Interface.OrderPickings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Repository.Picking.OrderPickings
 {
@@ -24,7 +26,8 @@ namespace Repository.Picking.OrderPickings
             _operatorRepository = operatorRepository;
 
             query = dbContext.OrderPickings
-                .Include(i => i.Items)
+                .Include(i => i.Items).ThenInclude(i => i.Details)
+                .Include(i => i.Items).ThenInclude(i => i.Processes)
                 .Include(i => i.Processes)
                 .Include(i => i.Details);
         }
@@ -36,8 +39,9 @@ namespace Repository.Picking.OrderPickings
             return Convert(orderPicking);
         }
 
-        public List<OrderPicking> Get() {
-            return this.query.ToList().Select(entity => Convert(entity)).ToList();
+        public List<OrderPicking> Get(int? limit) {
+            var orders = limit.HasValue ? this.query.Take(limit.Value).ToList() : this.query.ToList();
+            return orders.Select(entity => Convert(entity)).ToList();
         }
 
         private OrderPicking Convert(OrderPickingEntity orderPicking) {
@@ -75,6 +79,14 @@ namespace Repository.Picking.OrderPickings
                     q => q.Processes.OrderByDescending(o => o.Date).First().Status_Id == (int)status);
             return this;
         }
+        public IOrderPickingQuery FilterByOrStatus(List<PickingStatus> anyStatus) {
+            var statusIds = anyStatus.Cast<int>();
+            this.query = this.query.Where(
+                    q => statusIds.Contains(
+                        q.Processes.OrderByDescending(o => o.Date).First().Status_Id)
+                    );
+            return this;
+        }
 
         public IOrderPickingQuery FilterByUser(string username) {
             this.query = this.query.Where(
@@ -82,6 +94,25 @@ namespace Repository.Picking.OrderPickings
             return this;
         }
 
+        public IOrderPickingQuery FilterByDetail(string key, string value) {
+            this.query = this.query.Where(
+                   q => q.Details.Any(d => d.Name == key && d.Value == value));
+            return this;
+        }
 
+        public IOrderPickingQuery FilterByDetail(string key, Expression<Func<string, bool>> condition) {
+            var filterFunc = condition.Compile();
+            this.query = this.query.Where(
+                   q => q.Details.Any(d => d.Name == key && filterFunc.Invoke(d.Value)));
+            return this;
+        }
+
+        public IOrderPickingQuery OrderByDate(bool asc) {
+            this.query = asc ?
+                this.query.OrderBy(o => o.CreationDate)
+                : this.query.OrderByDescending(o => o.CreationDate);
+
+            return this;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Business.Domain.People;
 using Business.Domain.Picking;
 using Database.Picking.Entities;
+using Repository.Picking.PickingItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace Repository.Picking.OrderPickings
             };
 
             entity.Details.ToList().ForEach(detail => model.Details.Add(detail.Name, detail.Value));
+            entity.Items.ToList().ForEach(item => model.Items.Add(item.ToDomain()));
             return model;
         }
     }

@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Domain.Services
+namespace Business.Domain.Events
 {
-    public interface INextOrderPickingService
+    public interface IPickingEvent<T> where T : class
     {
-        OrderPicking NextOrderPicking(string sector);
+        void SetThisEventTo(T model);
     }
 }

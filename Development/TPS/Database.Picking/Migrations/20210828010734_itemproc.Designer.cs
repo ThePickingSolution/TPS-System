@@ -3,14 +3,16 @@ using System;
 using Database.Picking;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Database.Picking.Migrations
 {
     [DbContext(typeof(PickingDbContext))]
-    partial class PickingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210828010734_itemproc")]
+    partial class itemproc
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,24 +185,27 @@ namespace Database.Picking.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Operator")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PickingItemId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("PickingItem_Id")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("StatusId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status_Id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PickingItem_Id");
+                    b.HasIndex("PickingItemId");
 
-                    b.HasIndex("Status_Id");
+                    b.HasIndex("StatusId");
 
-                    b.ToTable("Picking.PickingItemProcess");
+                    b.ToTable("PickingItemProcessEntity");
                 });
 
             modelBuilder.Entity("Database.Picking.Entities.PickingItemStatusEntity", b =>
@@ -299,15 +304,11 @@ namespace Database.Picking.Migrations
                 {
                     b.HasOne("Database.Picking.Entities.PickingItemEntity", "PickingItem")
                         .WithMany("Processes")
-                        .HasForeignKey("PickingItem_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PickingItemId");
 
                     b.HasOne("Database.Picking.Entities.PickingItemStatusEntity", "Status")
                         .WithMany()
-                        .HasForeignKey("Status_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StatusId");
 
                     b.Navigation("PickingItem");
 

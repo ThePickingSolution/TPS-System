@@ -19,6 +19,8 @@ namespace Database.Picking
         public DbSet<OrderPickingProcessEntity> OrderPickingProcesses { get; set; }
         public DbSet<PickingItemEntity> PickingItems { get; set; }
         public DbSet<PickingItemDetailEntity> PickingItemDetails { get; set; }
+        public DbSet<OrderPickingStatusEntity> PickingItemStatus { get; set; }
+        public DbSet<OrderPickingProcessEntity> PickingItemProcesses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +30,8 @@ namespace Database.Picking
             modelBuilder.ApplyConfiguration(new OrderPickingProcessEntityMap());
             modelBuilder.ApplyConfiguration(new PickingItemEntityMap());
             modelBuilder.ApplyConfiguration(new PickingItemDetailEntityMap());
+            modelBuilder.ApplyConfiguration(new PickingItemStatusEntityMap());
+            modelBuilder.ApplyConfiguration(new PickingItemProcessEntityMap());
         }
     }
 }

@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Domain.Services
+namespace Repository.Picking.Interface.OrderPickings
 {
-    public interface INextOrderPickingService
+    public interface IOrderPickingUpdateRepository
     {
-        OrderPicking NextOrderPicking(string sector);
+        void UpdateStatus(OrderPicking picking);
     }
 }

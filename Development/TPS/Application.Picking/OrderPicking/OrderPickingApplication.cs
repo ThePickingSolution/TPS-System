@@ -34,7 +34,7 @@ namespace Application.Picking.OrderPicking
             if (parameters.FilterByStatus)
                 op_query.FilterByStatus(parameters.Status);
 
-            return op_query.Get().ParseDtos();
+            return op_query.Get(parameters.Limit).ParseDtos();
 
         }
     

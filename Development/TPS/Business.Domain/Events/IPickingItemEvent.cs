@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Business.Domain.Events
 {
-    public interface IPickingItemEvent
+    public interface IPickingItemEvent : IPickingEvent<PickingItem>
     {
         void OnStatusChange(PickingItem item, ItemStatus previousStatus);
         void OnBarcodeChange(PickingItem item);
@@ -23,6 +23,10 @@ namespace Business.Domain.Events
         public void OnStatusChange(PickingItem item, ItemStatus previousStatus)
         {
             return;
+        }
+
+        public void SetThisEventTo(PickingItem item) {
+            item.Event = this;
         }
     }
 }

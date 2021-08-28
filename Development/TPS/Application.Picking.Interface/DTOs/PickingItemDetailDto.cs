@@ -10,5 +10,10 @@ namespace Application.Picking.Interface.DTOs
     {
         public string Key { get; set; }
         public string Detail { get; set; }
+
+        public PickingItemDetailDto(string key, string detail) {
+            Key = key;
+            Detail = detail;
+        }
     }
 }

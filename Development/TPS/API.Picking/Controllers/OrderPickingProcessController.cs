@@ -32,7 +32,7 @@ namespace API.Picking.Controllers
         [Route("start")]
         public IActionResult Start(OrderPickingDto picking) {
             try {
-                return Ok(app.Start(picking.Id, picking.Operator, picking.Operator));
+                return Ok(app.Start(picking.Id, picking.Sector, picking.Operator));
             } catch (DomainException ex) {
                 return BadRequest(ex.Message);
             }

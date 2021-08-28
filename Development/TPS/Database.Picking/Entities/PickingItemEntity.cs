@@ -11,7 +11,9 @@ namespace Database.Picking.Entities
         public string Id { get; set; }
         public string SKU { get; set; }
         public string Description { get; set; }
+
         public ICollection<PickingItemDetailEntity> Details { get; set; }
+        public ICollection<PickingItemProcessEntity> Processes { get; set; }
 
         public OrderPickingEntity OrderPicking { get; set; }
         public string OrderPicking_Id { get; set; }

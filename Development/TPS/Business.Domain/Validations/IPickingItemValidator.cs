@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Business.Domain.Validations
 {
-    public interface IPickingItemValidator
+    public interface IPickingItemValidator : IPickingValidator<PickingItem>
     {
         /// <summary>
         /// Validate picking item barcode 
@@ -35,6 +35,10 @@ namespace Business.Domain.Validations
 
     public class DefaultPickingItemValidator : IPickingItemValidator
     {
+        public void SetThisValidatorTo(PickingItem model) {
+            model.Validator = this;
+        }
+
         public void ValidateItemBarcode(string barcode, PickingItem item)
         {
             if (barcode.IsNullOrEmpty())

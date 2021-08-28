@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Domain.Services
+namespace Business.Domain.Validations
 {
-    public interface INextOrderPickingService
+    public interface IPickingValidator<T> where T : class
     {
-        OrderPicking NextOrderPicking(string sector);
+        void SetThisValidatorTo(T model);
     }
 }

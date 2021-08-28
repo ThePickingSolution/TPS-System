@@ -47,15 +47,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.Administration.I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.Administration", "Repository.Administration\Repository.Administration.csproj", "{7F2983BC-A579-4AD2-B326-C1156678D752}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Domain.Warehouse", "Business.Domain.Warehouse\Business.Domain.Warehouse.csproj", "{44AACB4E-4440-4D78-8B32-86740B14CD5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.Domain.Warehouse", "Business.Domain.Warehouse\Business.Domain.Warehouse.csproj", "{44AACB4E-4440-4D78-8B32-86740B14CD5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.Warehouse", "Database.Warehouse\Database.Warehouse.csproj", "{9304E166-AB94-4AE3-88AC-D9CB46B03A43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.Warehouse", "Database.Warehouse\Database.Warehouse.csproj", "{9304E166-AB94-4AE3-88AC-D9CB46B03A43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.Warehouse", "Repository.Warehouse\Repository.Warehouse.csproj", "{0EEDA54C-B416-48C0-85A0-52194642EE77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.Warehouse", "Repository.Warehouse\Repository.Warehouse.csproj", "{0EEDA54C-B416-48C0-85A0-52194642EE77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.Warehouse.Interface", "Repository.Warehouse.Interface\Repository.Warehouse.Interface.csproj", "{192B928B-07EA-4FB5-A378-3792E9B8AA92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.Warehouse.Interface", "Repository.Warehouse.Interface\Repository.Warehouse.Interface.csproj", "{192B928B-07EA-4FB5-A378-3792E9B8AA92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Warehouse", "API.Warehouse\API.Warehouse.csproj", "{4EA33985-147E-45D6-991D-A222D04E55A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.Warehouse", "API.Warehouse\API.Warehouse.csproj", "{4EA33985-147E-45D6-991D-A222D04E55A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zSolutions", "zSolutions", "{2BB0873E-A335-46C0-8E6A-CE7245D3C5BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TPSCommon", "TPSCommon", "{EF0472A2-7CB0-4506-9228-C2C4CBCCF7DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solution.TPSCommon.Picking", "Solution.TPSCommon.Picking\Solution.TPSCommon.Picking.csproj", "{D6E63784-26FA-43AA-94CB-2BE227979143}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -151,6 +157,10 @@ Global
 		{4EA33985-147E-45D6-991D-A222D04E55A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EA33985-147E-45D6-991D-A222D04E55A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EA33985-147E-45D6-991D-A222D04E55A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6E63784-26FA-43AA-94CB-2BE227979143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6E63784-26FA-43AA-94CB-2BE227979143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6E63784-26FA-43AA-94CB-2BE227979143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6E63784-26FA-43AA-94CB-2BE227979143}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -178,6 +188,8 @@ Global
 		{0EEDA54C-B416-48C0-85A0-52194642EE77} = {779106A3-391A-432D-AECA-97CF6B9A355F}
 		{192B928B-07EA-4FB5-A378-3792E9B8AA92} = {779106A3-391A-432D-AECA-97CF6B9A355F}
 		{4EA33985-147E-45D6-991D-A222D04E55A3} = {5A6D9386-60C8-407D-97A0-F79412B0C199}
+		{EF0472A2-7CB0-4506-9228-C2C4CBCCF7DE} = {2BB0873E-A335-46C0-8E6A-CE7245D3C5BB}
+		{D6E63784-26FA-43AA-94CB-2BE227979143} = {EF0472A2-7CB0-4506-9228-C2C4CBCCF7DE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7FB30C2-59FC-42A1-860D-1D1EA7877286}

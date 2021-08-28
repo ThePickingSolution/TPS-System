@@ -1,5 +1,8 @@
 using Application.Picking.Interface.OrderPickings;
 using Application.Picking.OrderPicking;
+using Business.Domain.Events;
+using Business.Domain.Services;
+using Business.Domain.Validations;
 using Database.Picking;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -55,8 +58,14 @@ namespace API.Picking
             services.AddScoped<IOrderPickingQuery,OrderPickingQuery>();
             services.AddScoped<IOrderPickingApplication, OrderPickingApplication>();
             services.AddScoped<IOperatorRepository>(s => new OperatorRepository("localhost:9859", s.GetService<IHttpClientFactory>()));
-
+            
             services.AddScoped<IOrderPickingProcessApplication, OrderPickingProcessApplication>();
+            services.AddScoped<IOrderPickingUpdateRepository, OrderPickingUpdateRepository>();
+
+            // Specific
+            services.AddScoped<INextOrderPickingService, Solution.TPSCommon.Picking.Services.NextOrderPickingService>();
+            services.AddScoped<IOrderPickingValidator, Solution.TPSCommon.Picking.Business.OrderPickingValidator>();
+            services.AddScoped<IOrderPickingEvent, Solution.TPSCommon.Picking.Business.OrderPickingEvent>();
 
         }
 

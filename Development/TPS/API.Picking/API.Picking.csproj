@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -20,6 +20,7 @@
     <ProjectReference Include="..\Database.Picking\Database.Picking.csproj" />
     <ProjectReference Include="..\Repository.Picking.Interface\Repository.Picking.Interface.csproj" />
     <ProjectReference Include="..\Repository.Picking\Repository.Picking.csproj" />
+    <ProjectReference Include="..\Solution.TPSCommon.Picking\Solution.TPSCommon.Picking.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Business.Domain.Validations
 {
-    public interface IOrderPickingValidator
+    public interface IOrderPickingValidator : IPickingValidator<OrderPicking>
     {
         /// <summary>
         /// Validate container code.
@@ -32,6 +32,10 @@ namespace Business.Domain.Validations
 
     public class DefaultOrderPickingValidator : IOrderPickingValidator
     {
+        public void SetThisValidatorTo(OrderPicking model) {
+            model.Validator = this;
+        }
+
         public void ValidateContainer(string code, OrderPicking picking)
         {
             if (string.IsNullOrEmpty(code))

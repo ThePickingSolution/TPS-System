@@ -1,8 +1,10 @@
 ﻿using Application.Picking.Interface.DTOs;
 using Application.Picking.Interface.OrderPickings;
+using Business.Domain.Events;
 using Business.Domain.Exceptions;
 using Business.Domain.Picking;
 using Business.Domain.Services;
+using Business.Domain.Validations;
 using Repository.Picking.Interface.Operators;
 using Repository.Picking.Interface.OrderPickings;
 using System;
@@ -11,18 +13,28 @@ namespace Application.Picking.OrderPicking
 {
     public class OrderPickingProcessApplication : IOrderPickingProcessApplication
     {
-        private INextOrderPickingService nextPickingService;
+        private readonly INextOrderPickingService nextPickingService;
         private readonly IOrderPickingQuery orderPickingQuery;
         private readonly IOperatorRepository operatorRepository;
 
+        private IOrderPickingEvent orderpickingEvents;
+        private IOrderPickingValidator orderpickingValidators;
+
         public OrderPickingProcessApplication(IOrderPickingQuery _orderPickingQuery
-            , IOperatorRepository _operatorRepository) {
+            , IOperatorRepository _operatorRepository
+            , INextOrderPickingService _nextPickingService
+            , IOrderPickingEvent _orderpickingEvents
+            , IOrderPickingValidator _orderpickingValidators) {
             orderPickingQuery = _orderPickingQuery;
             operatorRepository = _operatorRepository;
+            nextPickingService = _nextPickingService;
+            orderpickingEvents = _orderpickingEvents;
+            orderpickingValidators = _orderpickingValidators;
         }
 
         public string Next(string sector) {
-            return nextPickingService.NextOrderPicking(sector);
+            var orderPicking = nextPickingService.NextOrderPicking(sector);
+            return orderPicking == null ? null : orderPicking.Id;
         }
 
 
@@ -38,6 +50,9 @@ namespace Application.Picking.OrderPicking
 
             if (orderPicking.Status != PickingStatus.PENDING && orderPicking.Status != PickingStatus.READY)
                 return false;
+
+            orderPicking.Event = orderpickingEvents;
+            orderPicking.Validator = orderpickingValidators;
 
             orderPicking.SetPickingOrderToUser(operatorRepository.Get(userid), sector);
             return true;

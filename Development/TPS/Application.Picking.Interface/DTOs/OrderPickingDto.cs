@@ -17,5 +17,6 @@ namespace Application.Picking.Interface.DTOs
         public string Operator { get; set; }
         public PickingStatus Status { get; set; }
         public List<OrderPickingDetailDto> Details { get; set; }
+        public List<PickingItemDto> Items { get; set; }
     }
 }

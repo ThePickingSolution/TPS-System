@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Business.Domain.Events
 {
-    public interface IOrderPickingEvent
+    public interface IOrderPickingEvent : IPickingEvent<OrderPicking>
     {
         void OnStatusChange(OrderPicking picking, PickingStatus previousStatus);
         void OnContainerChange(OrderPicking picking);
@@ -22,6 +22,10 @@ namespace Business.Domain.Events
         public void OnStatusChange(OrderPicking picking, PickingStatus previousStatus)
         {
             return;
+        }
+
+        public void SetThisEventTo(OrderPicking orderPicking) {
+            orderPicking.Event = this;
         }
     }
 }
