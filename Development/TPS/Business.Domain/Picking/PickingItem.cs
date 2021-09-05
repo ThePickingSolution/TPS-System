@@ -1,5 +1,6 @@
 ﻿using Business.Domain.Events;
 using Business.Domain.Exceptions;
+using Business.Domain.People;
 using Business.Domain.Validations;
 using Infrastructure.String;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Business.Domain.Picking
         private string _id;
         private string _SKU;
         private string _barcode;
+        private Operator _operator;
         private ItemStatus _status;
         private IPickingItemValidator _validator = new DefaultPickingItemValidator();
         private IPickingItemEvent _event = new DefaultPickingItemEvent();
@@ -53,6 +55,14 @@ namespace Business.Domain.Picking
                 _event.OnStatusChange(this, prevAux);
             }
         }
+        public Operator Operator {
+            get => _operator;
+            set {
+                if (value == null)
+                    throw new NullOperatorException("Operador deve ser informado");
+                _operator = value;
+            }
+        }
         public IDictionary<string, string> Details { get; } = new Dictionary<string, string>();
 
         public IPickingItemValidator Validator
@@ -89,12 +99,13 @@ namespace Business.Domain.Picking
             _validator = validator;
             _event = events;
         }
-        public PickingItem(string id, string sku, string barcode, ItemStatus status)
+        public PickingItem(string id, string sku, string barcode, ItemStatus status, Operator operatorUser)
         {
             _id = id;
             _SKU = sku;
             _barcode = barcode;
             _status = status;
+            _operator = operatorUser;
         }
 
     }

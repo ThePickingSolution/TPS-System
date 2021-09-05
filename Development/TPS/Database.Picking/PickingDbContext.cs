@@ -20,7 +20,7 @@ namespace Database.Picking
         public DbSet<PickingItemEntity> PickingItems { get; set; }
         public DbSet<PickingItemDetailEntity> PickingItemDetails { get; set; }
         public DbSet<OrderPickingStatusEntity> PickingItemStatus { get; set; }
-        public DbSet<OrderPickingProcessEntity> PickingItemProcesses { get; set; }
+        public DbSet<PickingItemProcessEntity> PickingItemProcesses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

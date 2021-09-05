@@ -1,5 +1,7 @@
 using Application.Picking.Interface.OrderPickings;
+using Application.Picking.Interface.PickingItems;
 using Application.Picking.OrderPicking;
+using Application.Picking.PickingItems;
 using Business.Domain.Events;
 using Business.Domain.Services;
 using Business.Domain.Validations;
@@ -15,8 +17,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Repository.Picking.Interface.Operators;
 using Repository.Picking.Interface.OrderPickings;
+using Repository.Picking.Interface.PickingItems;
 using Repository.Picking.Operators;
 using Repository.Picking.OrderPickings;
+using Repository.Picking.PickingItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,11 +65,16 @@ namespace API.Picking
             
             services.AddScoped<IOrderPickingProcessApplication, OrderPickingProcessApplication>();
             services.AddScoped<IOrderPickingUpdateRepository, OrderPickingUpdateRepository>();
+            services.AddScoped<IPickingItemQuery, PickingItemQuery>();
+            services.AddScoped<IPickingItemUpdateRepository, PickingItemUpdateRepository>();
+            services.AddScoped<IPickingItemProcessApplication, PickingItemProcessApplication>();
 
             // Specific
             services.AddScoped<INextOrderPickingService, Solution.TPSCommon.Picking.Services.NextOrderPickingService>();
             services.AddScoped<IOrderPickingValidator, Solution.TPSCommon.Picking.Business.OrderPickingValidator>();
             services.AddScoped<IOrderPickingEvent, Solution.TPSCommon.Picking.Business.OrderPickingEvent>();
+            services.AddScoped<IPickingItemEvent, Solution.TPSCommon.Picking.Business.PickingItemEvent>();
+            services.AddScoped<IPickingItemValidator, Solution.TPSCommon.Picking.Business.PickingItemValidator>();
 
         }
 

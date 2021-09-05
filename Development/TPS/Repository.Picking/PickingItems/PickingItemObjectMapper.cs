@@ -16,7 +16,7 @@ namespace Repository.Picking.PickingItems
 
             var lastStatus = entity.Processes.OrderBy(o => o.Date).LastOrDefault();
 
-            var model = new PickingItem(entity.Id, entity.SKU, lastStatus.Barcode, (ItemStatus)lastStatus.Status_Id) {
+            var model = new PickingItem(entity.Id, entity.SKU, lastStatus.Barcode, (ItemStatus)lastStatus.Status_Id,null) {
                 Description = entity.Description
             };
 
