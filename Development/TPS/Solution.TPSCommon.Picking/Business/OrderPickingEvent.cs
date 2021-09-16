@@ -1,5 +1,6 @@
 ﻿using Business.Domain.Events;
 using Business.Domain.Picking;
+using Picking.Hardware.Handler.Interface.Message;
 using Repository.Picking.Interface.OrderPickings;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,12 @@ namespace Solution.TPSCommon.Picking.Business
     {
 
         private readonly IOrderPickingUpdateRepository updateRepository;
+        private readonly IPickingFacePostman pickingFace;
 
-        public OrderPickingEvent(IOrderPickingUpdateRepository _orderPickingUpdateRepository) {
+        public OrderPickingEvent(IOrderPickingUpdateRepository _orderPickingUpdateRepository
+            ,IPickingFacePostman _pickingFace) {
             updateRepository = _orderPickingUpdateRepository;
+            pickingFace = _pickingFace;
         }
 
         public void SetThisEventTo(OrderPicking model) {
@@ -30,6 +34,10 @@ namespace Solution.TPSCommon.Picking.Business
 
         public void OnStatusChange(OrderPicking picking, PickingStatus previousStatus) {
             updateRepository.UpdateStatus(picking);
+
+            if(picking.Status == PickingStatus.WIP) {
+                this.pickingFace.PickManyRef(picking, "/tps/pickingface/001");
+            }
         }
     }
 }

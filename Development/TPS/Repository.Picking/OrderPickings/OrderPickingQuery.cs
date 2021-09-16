@@ -114,5 +114,11 @@ namespace Repository.Picking.OrderPickings
 
             return this;
         }
+
+        public IOrderPickingQuery ContainsItem(string id) {
+            this.query = this.query.Where(
+                   q => q.Items.Any(item => item.Id == id));
+            return this;
+        }
     }
 }

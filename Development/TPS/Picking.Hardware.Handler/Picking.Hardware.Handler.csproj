@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Business.Domain\Business.Domain.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+    <PackageReference Include="MQTTnet" Version="3.0.16" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Picking.Interface\Application.Picking.Interface.csproj" />
     <ProjectReference Include="..\Picking.Hardware.Handler.Interface\Picking.Hardware.Handler.Interface.csproj" />
     <ProjectReference Include="..\Repository.Picking.Interface\Repository.Picking.Interface.csproj" />
   </ItemGroup>

@@ -15,6 +15,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Picking.Hardware.Handler;
+using Picking.Hardware.Handler.Interface;
+using Picking.Hardware.Handler.Interface.Message;
+using Picking.Hardware.Handler.MQTT;
+using Picking.Hardware.Handler.Services;
 using Repository.Picking.Interface.Operators;
 using Repository.Picking.Interface.OrderPickings;
 using Repository.Picking.Interface.PickingItems;
@@ -76,6 +81,11 @@ namespace API.Picking
             services.AddScoped<IPickingItemEvent, Solution.TPSCommon.Picking.Business.PickingItemEvent>();
             services.AddScoped<IPickingItemValidator, Solution.TPSCommon.Picking.Business.PickingItemValidator>();
 
+            services
+               .AddSingleton<IHardwareHandlerManager, HardwareHandlerManager>()
+               .AddSingleton<MqttConnection>(new MqttConnection("4530C850-9E43-440E-8ED1-DBEB23599956", "mqtt.eclipseprojects.io", 1883))
+               .AddScoped<IPickingFacePostman, PickingFacePostman>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,6 +106,8 @@ namespace API.Picking
             {
                 endpoints.MapControllers();
             });
+
+            new HarwareStartup().Start(app.ApplicationServices);
         }
     }
 }

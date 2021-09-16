@@ -24,6 +24,8 @@ namespace Repository.Picking.Interface.OrderPickings
         IOrderPickingQuery FilterByDetail(string key, string value);
         IOrderPickingQuery FilterByDetail(string key, Expression<Func<string,bool>> condition);
 
+        IOrderPickingQuery ContainsItem(string id);
+
         IOrderPickingQuery OrderByDate(bool asc);
 
         IOrderPickingQuery New();

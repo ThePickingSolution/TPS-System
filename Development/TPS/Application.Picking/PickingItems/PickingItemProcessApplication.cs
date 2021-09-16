@@ -15,7 +15,6 @@ namespace Application.Picking.PickingItems
 {
     public class PickingItemProcessApplication : IPickingItemProcessApplication
     {
-        //private readonly INextOrderPickingService nextPickingService;
         private readonly IPickingItemQuery pickingItemQuery;
         private readonly IOperatorRepository operatorRepository;
 
