@@ -9,8 +9,8 @@ namespace Picking.Hardware.Handler.Interface.Message
 {
     public interface IPickingFacePostman
     {
-        void PickManyRef(OrderPicking picking, string itemStockCode);
-        void PickOneRef(List<PickingItem> items, string itemStockCode);
-        void FinishPicking(PickingItem lastItem, string itemStockCode);
+        void PickManyRef(OrderPicking picking);
+        void PickOneRef(List<PickingItem> items, string sector);
+        void FinishPicking(PickingItem lastItem, string sector);
     }
 }

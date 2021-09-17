@@ -8,7 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Repository.Warehouse.Interface.ItemStocks;
 using Repository.Warehouse.Interface.Sectors;
+using Repository.Warehouse.ItemStocks;
 using Repository.Warehouse.Sectors;
 using System;
 using System.Collections.Generic;
@@ -28,7 +30,9 @@ namespace API.Warehouse
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
+
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API.Warehouse", Version = "v1" });
             });
@@ -41,6 +45,7 @@ namespace API.Warehouse
 
             //Sector
             services.AddScoped<ISectorRepository, SectorRepository>();
+            services.AddScoped<IItemStockRepository, ItemStockRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,11 +2,6 @@
 using Business.Domain.Picking;
 using Picking.Hardware.Handler.Interface.Message;
 using Repository.Picking.Interface.OrderPickings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Solution.TPSCommon.Picking.Business
 {
@@ -36,7 +31,7 @@ namespace Solution.TPSCommon.Picking.Business
             updateRepository.UpdateStatus(picking);
 
             if(picking.Status == PickingStatus.WIP) {
-                this.pickingFace.PickManyRef(picking, "/tps/pickingface/001");
+                this.pickingFace.PickManyRef(picking);
             }
         }
     }

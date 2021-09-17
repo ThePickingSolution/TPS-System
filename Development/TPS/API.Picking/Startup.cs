@@ -20,6 +20,7 @@ using Picking.Hardware.Handler.Interface;
 using Picking.Hardware.Handler.Interface.Message;
 using Picking.Hardware.Handler.MQTT;
 using Picking.Hardware.Handler.Services;
+using Picking.Hardware.Handler.Warehouse;
 using Repository.Picking.Interface.Operators;
 using Repository.Picking.Interface.OrderPickings;
 using Repository.Picking.Interface.PickingItems;
@@ -84,7 +85,8 @@ namespace API.Picking
             services
                .AddSingleton<IHardwareHandlerManager, HardwareHandlerManager>()
                .AddSingleton<MqttConnection>(new MqttConnection("4530C850-9E43-440E-8ED1-DBEB23599956", "mqtt.eclipseprojects.io", 1883))
-               .AddScoped<IPickingFacePostman, PickingFacePostman>();
+               .AddScoped<IPickingFacePostman, PickingFacePostman>()
+               .AddScoped<ItemStockService>(s => new ItemStockService("localhost:31812", s.GetService<IHttpClientFactory>()));
 
         }
 

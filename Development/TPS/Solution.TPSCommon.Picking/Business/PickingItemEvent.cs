@@ -50,6 +50,7 @@ namespace Solution.TPSCommon.Picking.Business
             var orderPicking = orderPickingQuery.New()
                 .ContainsItem(item.Id)
                 .FirstOrDefault();
+
             orderPicking.Validator = this.opValidator;
             orderPicking.Event = this.opEvent;
 
@@ -62,7 +63,7 @@ namespace Solution.TPSCommon.Picking.Business
             //TODO Save Sector in item processo too.
             if (!orderPicking.Items.Any(i => pendindActionStatuses.Contains(i.Status))) {
                 orderPicking.Status = PickingStatus.PICKED;
-                this.pickingFace.FinishPicking(item, "/tps/pickingface/001");
+                this.pickingFace.FinishPicking(item, orderPicking.Sector);
             }
         }
 
