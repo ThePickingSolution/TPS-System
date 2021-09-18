@@ -21,6 +21,7 @@ namespace API.Warehouse
 {
     public class Startup
     {
+        private string corsPolicyName = "Unique";
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
         }
@@ -36,7 +37,15 @@ namespace API.Warehouse
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API.Warehouse", Version = "v1" });
             });
-
+            services.AddCors(options =>
+                options.AddPolicy(
+                    corsPolicyName,
+                    policy =>
+                        policy.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                )
+            );
             //DbContext
             var connection = Configuration["ConnectionStrings:Warehouse"];
             services.AddDbContext<WarehouseDbContext>(options =>
@@ -58,11 +67,16 @@ namespace API.Warehouse
 
             app.UseRouting();
 
+            app.UseCors(corsPolicyName);
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
+
+
+            app.UseCors(corsPolicyName);
         }
     }
 }

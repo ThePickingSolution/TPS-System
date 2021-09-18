@@ -12,8 +12,12 @@ using Repository.Administration.People;
 
 namespace API.Administration
 {
+
     public class Startup
     {
+
+        private string corsPolicyName = "Unique";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,6 +31,16 @@ namespace API.Administration
 
             services.AddControllers()
                 .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+            services.AddCors(options =>
+                options.AddPolicy(
+                    corsPolicyName,
+                    policy =>
+                        policy.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                )
+            );
 
             services.AddSwaggerGen(c =>
             {
@@ -59,12 +73,16 @@ namespace API.Administration
 
             app.UseRouting();
 
+            app.UseCors(corsPolicyName);
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+
         }
     }
 }
