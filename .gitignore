@@ -63,3 +63,6 @@
 /Development/TPS/Picking.Hardware.Handler/obj
 /Development/TPS/Picking.Hardware.Handler.Interface/bin/Debug/net5.0
 /Development/TPS/Picking.Hardware.Handler.Interface/obj
+/Development/TPS/Infrastructure.MQTT/obj
+/Development/TPS/Service.PickToLight/obj
+/Development/TPS/Service.PickToLight.Interface/obj

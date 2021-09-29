@@ -16,6 +16,7 @@ namespace Application.Picking.Interface.DTOs.Extensions
                 Id = model.Id,
                 Barcode = model.Barcode,
                 SKU = model.SKU,
+                Description = model.Description,
                 Status = model.Status,
                 Details = model.Details.Select(s => new PickingItemDetailDto(s.Key,s.Value)).ToList()
             };

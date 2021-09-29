@@ -45,6 +45,17 @@ namespace Application.Picking.OrderPicking
                 .FilterById(id)
                 .FirstOrDefault();
 
+            var query_pcikign_operator = orderPickingQuery.New();
+            var orderPickingOfOperator = query_pcikign_operator
+                .FilterByUser(userid)
+                .FilterBySector(sector)
+                .FilterByStatus(PickingStatus.WIP)
+                .FirstOrDefault();
+
+            if(orderPickingOfOperator != null) {
+                throw new DomainException("Usuario não finalizou o picking ainda");
+            }
+
             if (orderPicking == null)
                 throw new OrderPickingNotFoundException("Order Picking não encontrada");
 

@@ -31,15 +31,15 @@ namespace Picking.Hardware.Handler.Business
 
         public string PickMessage(int messageNumber) {
             this.MessageNumber = messageNumber;
-            return $"PICK;{ItemId};{messageNumber};1;0;{ItemReference};{Quantity};{User}";
+            return $"PICK;{ItemId};{messageNumber};1;0;{ItemReference};{Quantity};{User};\0";
         }
         public string FinishMessage(int messageNumber) {
             this.MessageNumber = messageNumber;
-            return $"DONE;{ItemId};{messageNumber}";
+            return $"DONE;{ItemId};{messageNumber};\0";
         }
         public string ReceicedMessage(int messageNumber) {
             this.MessageNumber = messageNumber;
-            return $"RECEIVED;{ItemId};{messageNumber}";
+            return $"RECEIVED;{ItemId};{messageNumber};\0";
         }
 
         public static List<DeliveryMqttMessage> Create(OrderPicking orderPicking) {
