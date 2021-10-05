@@ -11,11 +11,11 @@ namespace Service.PickToLight.Interface
     {
         bool Start(OrderPicking picking);
 
-        void Approve(string sku, OrderPicking picking);
-        void Reject(string sku, OrderPicking picking);
-        void Finish(string sku, OrderPicking picking);
+        bool Approve(string sku, OrderPicking picking);
+        bool Reject(string sku, OrderPicking picking);
+        bool Finish(string sku, OrderPicking picking);
 
-        void Cancel(OrderPicking picking);
-        void Error(string sector);
+        bool Cancel(OrderPicking picking);
+        bool Error(string sector,string reason);
     }
 }

@@ -25,7 +25,7 @@ namespace Infrastructure.MQTT
         private IMqttClient _client;
 
 
-        public MQTTConnection(string client, string server, int port) {
+        public MQTTConnection(string client, string server, int port, bool autoreconnect, bool start) {
             ClientId = client;
             Server = server;
             Port = port;
@@ -35,6 +35,11 @@ namespace Infrastructure.MQTT
             // Set up handlers
             _client.ConnectedHandler = new MqttClientConnectedHandlerDelegate((args) => { Console.WriteLine("MQTT Connected"); });
             _client.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate((args) => { Console.WriteLine("MQTT DisConnected"); });
+
+            if(autoreconnect)
+                this.AutoReconnection();
+            if (start)
+                this.ConnectAsync().GetAwaiter();
         }
 
         private IMqttClientOptions Options() {

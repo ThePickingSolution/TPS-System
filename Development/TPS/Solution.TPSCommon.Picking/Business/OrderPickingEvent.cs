@@ -1,7 +1,9 @@
 ﻿using Business.Domain.Events;
+using Business.Domain.Exceptions;
 using Business.Domain.Picking;
 using Picking.Hardware.Handler.Interface.Message;
 using Repository.Picking.Interface.OrderPickings;
+using Service.PickToLight.Interface;
 
 namespace Solution.TPSCommon.Picking.Business
 {
@@ -9,12 +11,13 @@ namespace Solution.TPSCommon.Picking.Business
     {
 
         private readonly IOrderPickingUpdateRepository updateRepository;
-        private readonly IPickingFacePostman pickingFace;
+        private readonly IPickingFaceService pickingface;
 
         public OrderPickingEvent(IOrderPickingUpdateRepository _orderPickingUpdateRepository
-            ,IPickingFacePostman _pickingFace) {
+            , IPickingFaceService _pickingface
+            ) {
             updateRepository = _orderPickingUpdateRepository;
-            pickingFace = _pickingFace;
+            pickingface = _pickingface;
         }
 
         public void SetThisEventTo(OrderPicking model) {
@@ -29,10 +32,22 @@ namespace Solution.TPSCommon.Picking.Business
 
         public void OnStatusChange(OrderPicking picking, PickingStatus previousStatus) {
             updateRepository.UpdateStatus(picking);
-
-            if(picking.Status == PickingStatus.WIP) {
-                this.pickingFace.PickManyRef(picking);
-            }
+            PickToLightProcess(picking, previousStatus);
         }
+
+
+        private void PickToLightProcess(OrderPicking picking, PickingStatus previousStatus) {
+
+            if (picking.Status == PickingStatus.WIP && previousStatus != PickingStatus.WIP) {
+                if (!this.pickingface.Start(picking)) {
+                    picking.Status = PickingStatus.PENDING;
+                    this.pickingface.Cancel(picking);
+                    throw new DomainException("Não foi possivel comunicar-se com a interface");
+                }
+            }
+
+         
+        }
+
     }
 }

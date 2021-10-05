@@ -6,6 +6,7 @@ using Business.Domain.Events;
 using Business.Domain.Services;
 using Business.Domain.Validations;
 using Database.Picking;
+using Infrastructure.MQTT;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,10 @@ using Repository.Picking.Interface.PickingItems;
 using Repository.Picking.Operators;
 using Repository.Picking.OrderPickings;
 using Repository.Picking.PickingItems;
+using Service.PickToLight;
+using Service.PickToLight.Interface;
+using Service.PickToLight.Interface.Warehouse;
+using Service.PickToLight.Warehouse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,10 +98,16 @@ namespace API.Picking
             services.AddScoped<IPickingItemValidator, Solution.TPSCommon.Picking.Business.PickingItemValidator>();
 
             services
-               .AddSingleton<IHardwareHandlerManager, HardwareHandlerManager>()
-               .AddSingleton<MqttConnection>(new MqttConnection("4530C850-9E43-440E-8ED1-DBEB23599956", "mqtt.eclipseprojects.io", 1883))
-               .AddScoped<IPickingFacePostman, PickingFacePostman>()
-               .AddScoped<ItemStockService>(s => new ItemStockService("localhost:31812", s.GetService<IHttpClientFactory>()));
+                .AddSingleton<MQTTConnection>(new MQTTConnection("4530C850-9E43-440E-8ED1-DBEB23599956", "mqtt.eclipseprojects.io", 1883,true,true))
+                .AddScoped<IPickingFaceService, PickingFaceService>()
+                .AddScoped<IItemStockProxyRepository>(x => new ItemStockProxyRepository("localhost:31812", x.GetService<IHttpClientFactory>()));
+
+
+            //services
+            //   .AddSingleton<IHardwareHandlerManager, HardwareHandlerManager>()
+            //   .AddSingleton<MqttConnection>(new MqttConnection("4530C850-9E43-440E-8ED1-DBEB23599956", "mqtt.eclipseprojects.io", 1883))
+            //   .AddScoped<IPickingFacePostman, PickingFacePostman>()
+            //   .AddScoped<ItemStockService>(s => new ItemStockService("localhost:31812", s.GetService<IHttpClientFactory>()));
 
         }
 

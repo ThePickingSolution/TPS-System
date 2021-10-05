@@ -4,6 +4,7 @@ using Business.Domain.Validations;
 using Picking.Hardware.Handler.Interface.Message;
 using Repository.Picking.Interface.OrderPickings;
 using Repository.Picking.Interface.PickingItems;
+using Service.PickToLight.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,14 @@ namespace Solution.TPSCommon.Picking.Business
 {
     public class PickingItemEvent : IPickingItemEvent
     {
-        private readonly IPickingFacePostman pickingFace;
+        private readonly IPickingFaceService pickingFace;
         private readonly IOrderPickingQuery orderPickingQuery;
         private readonly IPickingItemUpdateRepository itemUpdate;
 
         private readonly IOrderPickingEvent opEvent;
         private readonly IOrderPickingValidator opValidator;
 
-        public PickingItemEvent(IPickingFacePostman _pickingFace
+        public PickingItemEvent(IPickingFaceService _pickingFace
             , IOrderPickingQuery _orderPickingQuery
             , IPickingItemUpdateRepository _itemUpdate
             , IOrderPickingEvent _opEvent
@@ -44,9 +45,12 @@ namespace Solution.TPSCommon.Picking.Business
         }
 
         public void OnStatusChange(PickingItem item, ItemStatus previousStatus) {
-
             itemUpdate.UpdateStatus(item);
+            PickToLightProcess(item);
+        }
 
+
+        private void PickToLightProcess(PickingItem item) {
             var orderPicking = orderPickingQuery.New()
                 .ContainsItem(item.Id)
                 .FirstOrDefault();
@@ -63,7 +67,7 @@ namespace Solution.TPSCommon.Picking.Business
             //TODO Save Sector in item processo too.
             if (!orderPicking.Items.Any(i => pendindActionStatuses.Contains(i.Status))) {
                 orderPicking.Status = PickingStatus.PICKED;
-                this.pickingFace.FinishPicking(item, orderPicking.Sector);
+                this.pickingFace.Finish(item.SKU, orderPicking);
             }
         }
 

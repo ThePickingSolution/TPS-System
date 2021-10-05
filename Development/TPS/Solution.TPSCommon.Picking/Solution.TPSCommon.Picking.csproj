@@ -8,6 +8,7 @@
     <ProjectReference Include="..\Business.Domain\Business.Domain.csproj" />
     <ProjectReference Include="..\Picking.Hardware.Handler.Interface\Picking.Hardware.Handler.Interface.csproj" />
     <ProjectReference Include="..\Repository.Picking.Interface\Repository.Picking.Interface.csproj" />
+    <ProjectReference Include="..\Service.PickToLight.Interface\Service.PickToLight.Interface.csproj" />
   </ItemGroup>
 
 </Project>

@@ -22,6 +22,8 @@
     <ProjectReference Include="..\Picking.Hardware.Handler\Picking.Hardware.Handler.csproj" />
     <ProjectReference Include="..\Repository.Picking.Interface\Repository.Picking.Interface.csproj" />
     <ProjectReference Include="..\Repository.Picking\Repository.Picking.csproj" />
+    <ProjectReference Include="..\Service.PickToLight.Interface\Service.PickToLight.Interface.csproj" />
+    <ProjectReference Include="..\Service.PickToLight\Service.PickToLight.csproj" />
     <ProjectReference Include="..\Solution.TPSCommon.Picking\Solution.TPSCommon.Picking.csproj" />
   </ItemGroup>
 
