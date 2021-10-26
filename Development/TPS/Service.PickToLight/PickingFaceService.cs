@@ -1,4 +1,5 @@
-﻿using Business.Domain.Picking;
+﻿using Business.Domain.People;
+using Business.Domain.Picking;
 using Business.Domain.Warehouse.Stock;
 using Infrastructure.MQTT;
 using MQTTnet.Client.Connecting;
@@ -8,8 +9,11 @@ using Service.PickToLight.Interface.Warehouse;
 using Service.PickToLight.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Service.PickToLight
@@ -18,11 +22,14 @@ namespace Service.PickToLight
     {
         private readonly MQTTConnection MqttConn;
         private readonly IItemStockProxyRepository ItemStockRepository;
+
         public PickingFaceService(MQTTConnection mqttConn
             , IItemStockProxyRepository itemStockRepository) {
             MqttConn = mqttConn;
             ItemStockRepository = itemStockRepository;
-            CheckConnection();
+
+
+            Thread.Sleep(1000);
         }
 
         private bool CheckConnection() {
@@ -30,6 +37,7 @@ namespace Service.PickToLight
                 || MqttConn.ConnectAsync().GetAwaiter().GetResult().ResultCode == MqttClientConnectResultCode.Success;
 
         }
+
 
         public bool Start(OrderPicking picking) {
             var stockitems = ItemStockRepository.Get(picking.Sector);
@@ -43,9 +51,11 @@ namespace Service.PickToLight
             if (toNotify.Any(x => x.Item2 == null))
                 return false;
 
+
             bool success = toNotify
-                .Select(s => StartOne(s.Item1, s.Item3, s.Item2))
-                .Select(s => s.GetAwaiter().GetResult())
+                .Select(s => {
+                    return StartOne(s.Item1, s.Item3, s.Item2, picking.Operator).GetAwaiter().GetResult();
+                })
                 .All(x => x.ReasonCode == MqttClientPublishReasonCode.Success);
 
             if (!success) {
@@ -54,8 +64,9 @@ namespace Service.PickToLight
 
             return success;
         }
-        private async Task<MqttClientPublishResult> StartOne(PickingItem item, int qty, ItemStock stock) {
-            PickingFaceMessage message = new StartMessage($"{stock.StockCode}/sys", item.Id,item.SKU,qty,item.Operator.Name,true,false);
+        private async Task<MqttClientPublishResult> StartOne(PickingItem item, int qty, ItemStock stock, Operator op) {
+            SetupSubscribeConfirm(stock);
+            PickingFaceMessage message = new StartMessage($"{stock.StockCode}/sys", item.Id,item.SKU,qty, op.Name,true,false);
             return await MqttConn.Publish(message.Topic, message.Message);
         }
 
@@ -69,6 +80,7 @@ namespace Service.PickToLight
             return result == MqttClientPublishReasonCode.Success;
         }
         private async Task<MqttClientPublishResult> ApproveOne(PickingItem item, ItemStock stock) {
+            UnsubscribeConfirm(stock);
             PickingFaceMessage message = new ApproveMessage($"{stock.StockCode}/sys", item.Id);
             return await MqttConn.Publish(message.Topic, message.Message);
         }
@@ -99,11 +111,10 @@ namespace Service.PickToLight
             return result == MqttClientPublishReasonCode.Success;
         }
         private async Task<MqttClientPublishResult> FinishOne(PickingItem item, ItemStock stock) {
+            UnsubscribeConfirm(stock);
             PickingFaceMessage message = new FinishMessage($"{stock.StockCode}/sys", item.Id);
             return await MqttConn.Publish(message.Topic, message.Message);
         }
-
-
 
 
         public bool Cancel(OrderPicking picking) {
@@ -118,13 +129,13 @@ namespace Service.PickToLight
                 return false;
 
             bool success = toNotify
-                .Select(s => CancelOne(s.Item1, s.Item2))
-                .Select(s => s.GetAwaiter().GetResult())
+                .Select(s => CancelOne(s.Item1, s.Item2).GetAwaiter().GetResult())
                 .All(x => x.ReasonCode == MqttClientPublishReasonCode.Success);
 
             return success;
         }
         private async Task<MqttClientPublishResult> CancelOne(PickingItem item, ItemStock stock) {
+            UnsubscribeConfirm(stock);
             PickingFaceMessage message = new CancelMessage($"{stock.StockCode}/sys", item.Id);
             return await MqttConn.Publish(message.Topic, message.Message);
         }
@@ -134,8 +145,7 @@ namespace Service.PickToLight
             var stockitems = ItemStockRepository.Get(sector);
 
             return stockitems
-                .Select(s => ErrorOne(s, reason))
-                .Select(s => s.GetAwaiter().GetResult())
+                .Select(s => ErrorOne(s, reason).GetAwaiter().GetResult())
                 .All(x => x.ReasonCode == MqttClientPublishReasonCode.Success);
         }
         private async Task<MqttClientPublishResult> ErrorOne(ItemStock stock,string error) {
@@ -143,5 +153,27 @@ namespace Service.PickToLight
             return await MqttConn.Publish(message.Topic, message.Message);
         }
 
+
+
+        private bool SetupSubscribeConfirm(ItemStock stock) {
+            string topic = $"{stock.StockCode}/esp";
+            bool success = MqttConn.Subscribe(topic)
+                .GetAwaiter()
+                .GetResult() != null;
+            if (!success) {
+                Debug.WriteLine($"MQTT - Erro ao subscrever a confirmação para {stock.StockCode}");
+            }
+            return success;
+        }
+        private bool UnsubscribeConfirm(ItemStock stock) {
+            string topic = $"{stock.StockCode}/esp";
+            bool success = MqttConn.UnSubscribe(topic)
+                .GetAwaiter()
+                .GetResult() != null;
+            if (!success) {
+                Debug.WriteLine($"MQTT - Erro ao dessubscrever a confirmação para {stock.StockCode}");
+            }
+            return success;
+        }
     }
 }

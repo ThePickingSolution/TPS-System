@@ -18,6 +18,7 @@ namespace Business.Domain.People
         public Operator(Guid id, string username, string name) {
             Id = id;
             Username = username;
+            Name = name;
         }
     }
 }

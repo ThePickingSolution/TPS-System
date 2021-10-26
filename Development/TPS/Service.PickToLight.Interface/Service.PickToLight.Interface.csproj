@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Application.Picking.Interface\Application.Picking.Interface.csproj" />
     <ProjectReference Include="..\Business.Domain.Warehouse\Business.Domain.Warehouse.csproj" />
     <ProjectReference Include="..\Business.Domain\Business.Domain.csproj" />
   </ItemGroup>

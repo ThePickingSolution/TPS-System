@@ -20,7 +20,7 @@ namespace API.Picking.Controllers
 
 
         [HttpGet]
-        public IEnumerable<OrderPickingDto> Get(string id=null,string sector = null, string op = null, string container = null, PickingStatus? status = null)
+        public IEnumerable<OrderPickingDto> Get(string id=null,string sector = null, string op = null, string container = null, PickingStatus? status = null, string itemid = null)
         {
             var _params = new OrderPickingParams();
             _params.Limit = 50;
@@ -29,6 +29,7 @@ namespace API.Picking.Controllers
             if (op != null) _params.SetOperatorFilter(op);
             if (container != null) _params.SetContainerFilter(container);
             if (status != null) _params.SetStatusFilter(status.Value);
+            if (itemid != null) _params.SetItemFilter(itemid);
 
             return app.Get(_params);
         }

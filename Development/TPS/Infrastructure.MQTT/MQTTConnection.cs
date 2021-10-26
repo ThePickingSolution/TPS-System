@@ -22,6 +22,8 @@ namespace Infrastructure.MQTT
         public int Port { get; private set; }
         public bool IsConnected { get { return _client != null && _client.IsConnected;  } }
 
+        public bool ListenerSetup { get; private set; }
+
         private IMqttClient _client;
 
 
@@ -39,7 +41,7 @@ namespace Infrastructure.MQTT
             if(autoreconnect)
                 this.AutoReconnection();
             if (start)
-                this.ConnectAsync().GetAwaiter();
+                this.ConnectAsync().GetAwaiter().GetResult();
         }
 
         private IMqttClientOptions Options() {
@@ -61,11 +63,12 @@ namespace Infrastructure.MQTT
 
         public void SetListener(Action<MqttApplicationMessageReceivedEventArgs> callback) {
             _client.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(callback);
+            ListenerSetup = true;
         }
 
         public void AutoReconnection() {
             _client.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate((args) => {
-                this.ConnectAsync();
+                this.ConnectAsync().GetAwaiter().GetResult();
             });
         }
 

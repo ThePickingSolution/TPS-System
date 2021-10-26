@@ -25,6 +25,9 @@ namespace Application.Picking.Interface.DTOs.Params
         public bool FilterBySector { get; private set; }
         public string Sector { get; private set; }
 
+        public bool FilterByItem { get; private set; }
+        public string ItemId { get; private set; }
+
         public void SetIdFilter(string id)
         {
             this.Id = id;
@@ -53,6 +56,11 @@ namespace Application.Picking.Interface.DTOs.Params
         {
             Sector = sector;
             FilterBySector = true;
+        }
+
+        public void SetItemFilter(string itemid) {
+            ItemId = itemid;
+            FilterByItem = true;
         }
     }
 }

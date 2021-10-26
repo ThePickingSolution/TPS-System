@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -9,8 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Application.Picking.Interface\Application.Picking.Interface.csproj" />
     <ProjectReference Include="..\Business.Domain.Warehouse\Business.Domain.Warehouse.csproj" />
     <ProjectReference Include="..\Infrastructure.MQTT\Infrastructure.MQTT.csproj" />
+    <ProjectReference Include="..\Repository.Picking.Interface\Repository.Picking.Interface.csproj" />
     <ProjectReference Include="..\Service.PickToLight.Interface\Service.PickToLight.Interface.csproj" />
   </ItemGroup>
 

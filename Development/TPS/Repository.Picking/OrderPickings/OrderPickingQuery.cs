@@ -96,7 +96,7 @@ namespace Repository.Picking.OrderPickings
 
         public IOrderPickingQuery FilterByDetail(string key, string value) {
             this.query = this.query.Where(
-                   q => q.Details.Any(d => d.Name == key && d.Value == value));
+                   q => q.Details.Any(d => d.Name.StartsWith(key) && d.Value == value));
             return this;
         }
 

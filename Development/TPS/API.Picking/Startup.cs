@@ -9,19 +9,11 @@ using Database.Picking;
 using Infrastructure.MQTT;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Picking.Hardware.Handler;
-using Picking.Hardware.Handler.Interface;
-using Picking.Hardware.Handler.Interface.Message;
-using Picking.Hardware.Handler.MQTT;
-using Picking.Hardware.Handler.Services;
-using Picking.Hardware.Handler.Warehouse;
 using Repository.Picking.Interface.Operators;
 using Repository.Picking.Interface.OrderPickings;
 using Repository.Picking.Interface.PickingItems;
@@ -31,33 +23,28 @@ using Repository.Picking.PickingItems;
 using Service.PickToLight;
 using Service.PickToLight.Interface;
 using Service.PickToLight.Interface.Warehouse;
+using Service.PickToLight.Picking;
 using Service.PickToLight.Warehouse;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace API.Picking
 {
     public class Startup
     {
         private string corsPolicyName = "Unique";
-        public Startup(IConfiguration configuration)
-        {
+        public Startup(IConfiguration configuration) {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
+        public void ConfigureServices(IServiceCollection services) {
 
             services.AddControllers()
                 .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
-            services.AddSwaggerGen(c =>
-            {
+            services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API.Picking", Version = "v1" });
             });
             services.AddCors(options =>
@@ -80,10 +67,10 @@ namespace API.Picking
 
 
             //Order Picking
-            services.AddScoped<IOrderPickingQuery,OrderPickingQuery>();
+            services.AddScoped<IOrderPickingQuery, OrderPickingQuery>();
             services.AddScoped<IOrderPickingApplication, OrderPickingApplication>();
-            services.AddScoped<IOperatorRepository>(s => new OperatorRepository("localhost:9859", s.GetService<IHttpClientFactory>()));
-            
+            services.AddScoped<IOperatorRepository>(s => new OperatorRepository(Configuration.GetSection("AppSettings:AdministrationApi").Value, s.GetService<IHttpClientFactory>()));
+
             services.AddScoped<IOrderPickingProcessApplication, OrderPickingProcessApplication>();
             services.AddScoped<IOrderPickingUpdateRepository, OrderPickingUpdateRepository>();
             services.AddScoped<IPickingItemQuery, PickingItemQuery>();
@@ -97,25 +84,33 @@ namespace API.Picking
             services.AddScoped<IPickingItemEvent, Solution.TPSCommon.Picking.Business.PickingItemEvent>();
             services.AddScoped<IPickingItemValidator, Solution.TPSCommon.Picking.Business.PickingItemValidator>();
 
-            services
-                .AddSingleton<MQTTConnection>(new MQTTConnection("4530C850-9E43-440E-8ED1-DBEB23599956", "mqtt.eclipseprojects.io", 1883,true,true))
-                .AddScoped<IPickingFaceService, PickingFaceService>()
-                .AddScoped<IItemStockProxyRepository>(x => new ItemStockProxyRepository("localhost:31812", x.GetService<IHttpClientFactory>()));
 
+            services.AddSingleton<MQTTConnection>(
+                    new MQTTConnection(Configuration.GetSection("AppSettings:MqttClient").Value
+                    , Configuration.GetSection("AppSettings:MqttServer").Value
+                    , Int32.Parse(Configuration.GetSection("AppSettings:MqttPort").Value), true, true));
 
-            //services
-            //   .AddSingleton<IHardwareHandlerManager, HardwareHandlerManager>()
-            //   .AddSingleton<MqttConnection>(new MqttConnection("4530C850-9E43-440E-8ED1-DBEB23599956", "mqtt.eclipseprojects.io", 1883))
-            //   .AddScoped<IPickingFacePostman, PickingFacePostman>()
-            //   .AddScoped<ItemStockService>(s => new ItemStockService("localhost:31812", s.GetService<IHttpClientFactory>()));
+            services.AddScoped<IPickingFaceService, PickingFaceService>();
+
+            services.AddScoped<IItemStockProxyRepository>(x => 
+                new ItemStockProxyRepository(Configuration.GetSection("AppSettings:WarehouseApi").Value
+                    , x.GetService<IHttpClientFactory>()));
+
+            services.AddSingleton<IConfirmListenerService, ConfirmListenerService>()
+                .AddSingleton<IOrderPickingProxyRepository>(x =>
+                    new OrderPickingProxyRepository(
+                        x.GetService<IHttpClientFactory>()
+                        , Configuration.GetSection("AppSettings:PickingApi").Value))
+                .AddSingleton<IPickingItemProcessProxyRepository>(x =>
+                    new PickingItemProcessProxyRepository(
+                        x.GetService<IHttpClientFactory>()
+                        , Configuration.GetSection("AppSettings:PickingApi").Value));
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API.Picking v1"));
@@ -128,14 +123,13 @@ namespace API.Picking
             app.UseAuthorization();
 
 
-            app.UseEndpoints(endpoints =>
-            {
+            app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
 
 
-
-            new HarwareStartup().Start(app.ApplicationServices);
+            app.ApplicationServices.GetService<IConfirmListenerService>().Setup();
+            //new HarwareStartup().Start(app.ApplicationServices);
         }
     }
 }

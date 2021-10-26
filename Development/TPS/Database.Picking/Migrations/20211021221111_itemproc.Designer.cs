@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Picking.Migrations
 {
     [DbContext(typeof(PickingDbContext))]
-    [Migration("20210828013403_itemproc2")]
-    partial class itemproc2
+    [Migration("20211021221111_itemproc")]
+    partial class itemproc
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

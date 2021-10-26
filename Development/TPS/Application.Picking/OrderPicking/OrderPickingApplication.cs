@@ -33,6 +33,8 @@ namespace Application.Picking.OrderPicking
                 op_query.FilterByUser(parameters.Operator);
             if (parameters.FilterByStatus)
                 op_query.FilterByStatus(parameters.Status);
+            if (parameters.FilterByItem)
+                op_query.ContainsItem(parameters.ItemId);
 
             return op_query.Get(parameters.Limit).ParseDtos();
 

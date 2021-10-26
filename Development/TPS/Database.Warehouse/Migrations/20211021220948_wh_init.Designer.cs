@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Warehouse.Migrations
 {
     [DbContext(typeof(WarehouseDbContext))]
-    [Migration("20210825001914_wh_init")]
+    [Migration("20211021220948_wh_init")]
     partial class wh_init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

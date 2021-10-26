@@ -27,30 +27,25 @@ namespace API.Picking.Controllers
         [Route("")]
         public IActionResult Pick(string payload) {
             var payloadParts = payload.Split(';').Select(x => x.Trim()).ToArray();
-            
-            bool isConfirm = payloadParts[0] == "CONFIRM";
-            string itemid = payloadParts[1];
-            int qty = Int32.Parse(payloadParts[3]);
 
-            if (isConfirm) {
-                var orderpicking = orderPickingQuery.New()
-                .ContainsItem(itemid)
-                .FirstOrDefault();
+            string itemid = payloadParts[0];
+            int qty = Int32.Parse(payloadParts[1]);
 
-                if (orderpicking.Status == PickingStatus.WIP) {
-                    var item = orderpicking.Items.First(f => f.Id == itemid);
+            var orderpicking = orderPickingQuery.New()
+            .ContainsItem(itemid)
+            .FirstOrDefault();
 
-                    var sameSkuItems = orderpicking.Items.Where(w => w.SKU == item.SKU);
-                    var count = qty;
+            if (orderpicking.Status == PickingStatus.WIP) {
+                var item = orderpicking.Items.First(f => f.Id == itemid);
 
-                    foreach (var i in sameSkuItems) {
+                var sameSkuItems = orderpicking.Items.Where(w => w.SKU == item.SKU);
+                var count = qty;
 
-                        itemProcess.SetItemStatus(i.Id, --count < 0 ? ItemStatus.MISSING : ItemStatus.PICKED, orderpicking.Operator.Id.ToString());
-
-
-                    }
+                foreach (var i in sameSkuItems) {
+                    itemProcess.SetItemStatus(i.Id, --count < 0 ? ItemStatus.MISSING : ItemStatus.PICKED, orderpicking.Operator.Id.ToString());
                 }
             }
+
 
             return Ok();
         }

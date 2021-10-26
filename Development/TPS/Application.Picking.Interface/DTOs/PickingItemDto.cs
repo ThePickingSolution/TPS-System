@@ -15,5 +15,6 @@ namespace Application.Picking.Interface.DTOs
         public string Barcode { get; set; }
         public ItemStatus Status { get; set; }
         public List<PickingItemDetailDto> Details { get; set; }
+        public string Operator { get; set; }
     }
 }
