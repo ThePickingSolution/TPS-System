@@ -27,7 +27,7 @@ namespace Service.PickToLight.Models
             User = user.Length > 9 ? user.Substring(0, 9) : user;
         }
         protected override string GetMessage() {
-            return $"{COMMAND};{ItemId};0;{GreenLED};{RedLED};{SKU};{Quantity};{User};\0";
+            return $"{COMMAND};{ItemId};{GreenLED};{RedLED};{Quantity};{User};\0";
         }
     }
 }

@@ -9,6 +9,7 @@ using MQTTnet.Client.Subscribing;
 using MQTTnet.Client.Unsubscribing;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,8 +36,8 @@ namespace Infrastructure.MQTT
             _client = new MqttFactory().CreateMqttClient();
 
             // Set up handlers
-            _client.ConnectedHandler = new MqttClientConnectedHandlerDelegate((args) => { Console.WriteLine("MQTT Connected"); });
-            _client.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate((args) => { Console.WriteLine("MQTT DisConnected"); });
+            _client.ConnectedHandler = new MqttClientConnectedHandlerDelegate((args) => { Debug.WriteLine("MQTT Connected"); });
+            _client.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate((args) => { Debug.WriteLine("MQTT DisConnected"); });
 
             if(autoreconnect)
                 this.AutoReconnection();
@@ -68,6 +69,7 @@ namespace Infrastructure.MQTT
 
         public void AutoReconnection() {
             _client.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate((args) => {
+                Debug.WriteLine("MQTT Disconected");
                 this.ConnectAsync().GetAwaiter().GetResult();
             });
         }

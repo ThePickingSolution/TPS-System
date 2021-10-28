@@ -27,6 +27,7 @@ using Service.PickToLight.Picking;
 using Service.PickToLight.Warehouse;
 using System;
 using System.Net.Http;
+using System.Threading;
 
 namespace API.Picking
 {
@@ -85,14 +86,14 @@ namespace API.Picking
             services.AddScoped<IPickingItemValidator, Solution.TPSCommon.Picking.Business.PickingItemValidator>();
 
 
-            services.AddSingleton<MQTTConnection>(
-                    new MQTTConnection(Configuration.GetSection("AppSettings:MqttClient").Value
+            var mqttconn = new MQTTConnection(Configuration.GetSection("AppSettings:MqttClient").Value
                     , Configuration.GetSection("AppSettings:MqttServer").Value
-                    , Int32.Parse(Configuration.GetSection("AppSettings:MqttPort").Value), true, true));
+                    , Int32.Parse(Configuration.GetSection("AppSettings:MqttPort").Value), true, true);
+            services.AddSingleton<MQTTConnection>(mqttconn);
 
             services.AddScoped<IPickingFaceService, PickingFaceService>();
 
-            services.AddScoped<IItemStockProxyRepository>(x => 
+            services.AddScoped<IItemStockProxyRepository>(x =>
                 new ItemStockProxyRepository(Configuration.GetSection("AppSettings:WarehouseApi").Value
                     , x.GetService<IHttpClientFactory>()));
 

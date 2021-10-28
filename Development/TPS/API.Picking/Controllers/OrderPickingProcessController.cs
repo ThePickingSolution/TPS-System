@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace API.Picking.Controllers
@@ -28,13 +29,24 @@ namespace API.Picking.Controllers
             return !id.IsNullOrEmpty() ? Ok(id) : NoContent();
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("start")]
         public IActionResult Start(OrderPickingDto picking) {
             try {
                 return Ok(app.Start(picking.Id, picking.Sector, picking.Operator));
             } catch (DomainException ex) {
                 return BadRequest(ex.Message);
+            } catch(Exception ex) {
+                StringBuilder message = new StringBuilder();
+
+                Exception aux = ex;
+                do {
+                    message.AppendLine(aux.Message);
+                    message.AppendLine(aux.StackTrace);
+                    message.AppendLine("______________________");
+                    aux = aux.InnerException;
+                } while (aux != null);
+                return BadRequest(message.ToString());
             }
         }
     }

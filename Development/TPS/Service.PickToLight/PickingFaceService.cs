@@ -27,9 +27,6 @@ namespace Service.PickToLight
             , IItemStockProxyRepository itemStockRepository) {
             MqttConn = mqttConn;
             ItemStockRepository = itemStockRepository;
-
-
-            Thread.Sleep(1000);
         }
 
         private bool CheckConnection() {
