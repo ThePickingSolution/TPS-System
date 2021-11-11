@@ -48,7 +48,7 @@ namespace Application.Picking.OrderPicking
             var query_pcikign_operator = orderPickingQuery.New();
             var orderPickingOfOperator = query_pcikign_operator
                 .FilterByUser(userid)
-                .FilterBySector(sector)
+                //.FilterBySector(sector)
                 .FilterByStatus(PickingStatus.WIP)
                 .FirstOrDefault();
 

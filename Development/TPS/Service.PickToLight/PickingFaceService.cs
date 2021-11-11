@@ -23,6 +23,8 @@ namespace Service.PickToLight
         private readonly MQTTConnection MqttConn;
         private readonly IItemStockProxyRepository ItemStockRepository;
 
+        private const string SECTOR = "SECTOR";
+
         public PickingFaceService(MQTTConnection mqttConn
             , IItemStockProxyRepository itemStockRepository) {
             MqttConn = mqttConn;
@@ -39,7 +41,9 @@ namespace Service.PickToLight
         public bool Start(OrderPicking picking) {
             var stockitems = ItemStockRepository.Get(picking.Sector);
 
-            var toNotify = picking.Items.GroupBy(g => g.SKU)
+            var toNotify = picking.Items
+                .Where(i => i.Details.Any(d => d.Key.StartsWith(SECTOR) && d.Value.Equals(picking.Sector)))
+                .GroupBy(g => g.SKU)
                 .Select(item => new Tuple<PickingItem, ItemStock, int>(
                     item.First()
                     , stockitems.FirstOrDefault(f => f.SKU == item.First().SKU)
@@ -55,9 +59,9 @@ namespace Service.PickToLight
                 })
                 .All(x => x.ReasonCode == MqttClientPublishReasonCode.Success);
 
-            if (!success) {
-                this.Cancel(picking);
-            }
+            //if (!success) {
+            //    this.Cancel(picking);
+            //}
 
             return success;
         }

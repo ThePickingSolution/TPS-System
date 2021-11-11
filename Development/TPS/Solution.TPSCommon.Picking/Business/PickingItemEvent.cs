@@ -22,6 +22,9 @@ namespace Solution.TPSCommon.Picking.Business
         private readonly IOrderPickingEvent opEvent;
         private readonly IOrderPickingValidator opValidator;
 
+
+        private const string SECTOR = "SECTOR";
+
         public PickingItemEvent(IPickingFaceService _pickingFace
             , IOrderPickingQuery _orderPickingQuery
             , IPickingItemUpdateRepository _itemUpdate
@@ -64,9 +67,10 @@ namespace Solution.TPSCommon.Picking.Business
                 ItemStatus.PENDING_READING
             };
 
-            //TODO Save Sector in item processo too.
-            if (!orderPicking.Items.Any(i => pendindActionStatuses.Contains(i.Status))) {
-                orderPicking.Status = PickingStatus.PICKED;
+            //TODO Save Sector in item process too.
+            var items = orderPicking.Items.Where(x => x.Details.Any(d => d.Key.StartsWith(SECTOR) && d.Value == item.Details[SECTOR]));
+            if (!items.Any(i => pendindActionStatuses.Contains(i.Status))) {
+                orderPicking.Status = orderPicking.Items.Any(i => i.Status == ItemStatus.PENDING) ? PickingStatus.READY : PickingStatus.PICKED;
                 this.pickingFace.Finish(item.SKU, orderPicking);
             }
         }
